@@ -10,7 +10,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "Ikarus\\Model\\" : "src"
+      "Ikarus\\Logic\\Model\\" : "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ikarus\\Logic\\Model\\Test\\": "Tests"
     }
   },
   "require" : {
