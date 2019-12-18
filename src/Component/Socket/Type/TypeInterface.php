@@ -35,7 +35,9 @@
 namespace Ikarus\Logic\Model\Component\Socket\Type;
 
 
-interface TypeInterface
+use Ikarus\Logic\Model\Component\ComponentInterface;
+
+interface TypeInterface extends ComponentInterface
 {
     /**
      * Declares the type name
