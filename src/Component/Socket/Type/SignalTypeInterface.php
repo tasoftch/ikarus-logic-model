@@ -34,7 +34,10 @@
 
 namespace Ikarus\Logic\Model\Component\Socket\Type;
 
-
+/**
+ * Signals are used differently than normal types.
+ * @package Ikarus\Logic\Model\Component\Socket\Type
+ */
 interface SignalTypeInterface extends TypeInterface
 {
 }
