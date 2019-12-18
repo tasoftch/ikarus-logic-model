@@ -35,6 +35,7 @@
 namespace Ikarus\Logic\Model\Element\Node;
 
 
+use Ikarus\Logic\Model\Component\NodeComponentInterface;
 use Ikarus\Logic\Model\Element\ElementInterface;
 use Ikarus\Logic\Model\Element\Scene\SceneElementInterface;
 use Ikarus\Logic\Model\Element\Socket\SocketElementInterface;
@@ -42,7 +43,7 @@ use Ikarus\Logic\Model\Element\Socket\SocketElementInterface;
 interface NodeElementInterface extends ElementInterface
 {
     /**
-     * @return NodeElementInterface;
+     * @return NodeComponentInterface;
      */
     public function getComponent();
 
