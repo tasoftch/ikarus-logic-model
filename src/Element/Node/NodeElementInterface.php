@@ -63,4 +63,11 @@ interface NodeElementInterface extends ElementInterface
      * @return SocketElementInterface[]
      */
     public function getOutputSocketElements(): array;
+
+    /**
+     * User data
+     *
+     * @return mixed
+     */
+    public function getData();
 }

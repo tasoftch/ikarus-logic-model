@@ -37,7 +37,7 @@ namespace Ikarus\Logic\Model\Loader;
 
 use Ikarus\Logic\Model\ProjectInterface;
 
-abstract class AbstractLoaderInterface implements ProjectLoaderInterface
+abstract class AbstractLoader implements ProjectLoaderInterface
 {
     /** @var ProjectInterface */
     private $project;

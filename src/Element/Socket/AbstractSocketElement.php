@@ -35,9 +35,11 @@
 namespace Ikarus\Logic\Model\Element\Socket;
 
 
+use Ikarus\Logic\Model\Component\ComponentInterface;
 use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
 use Ikarus\Logic\Model\Element\AbstractElement;
 use Ikarus\Logic\Model\Element\Node\NodeElementInterface;
+use Ikarus\Logic\Model\ProjectInterface;
 
 abstract class AbstractSocketElement extends AbstractElement implements SocketElementInterface
 {
@@ -45,6 +47,22 @@ abstract class AbstractSocketElement extends AbstractElement implements SocketEl
     protected $node;
     /** @var TypeInterface */
     protected $type;
+
+    /**
+     * AbstractSocketElement constructor.
+     * @param NodeElementInterface $node
+     * @param TypeInterface $type
+     * @param ComponentInterface $component
+     * @param ProjectInterface $project
+     * @param null $identifier
+     */
+    public function __construct(NodeElementInterface $node, TypeInterface $type, ComponentInterface $component, ProjectInterface $project, $identifier = NULL)
+    {
+        parent::__construct($component, $project, $identifier);
+        $this->node = $node;
+        $this->type = $type;
+    }
+
 
     public function getNode(): NodeElementInterface
     {

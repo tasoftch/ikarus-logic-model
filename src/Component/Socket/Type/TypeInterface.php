@@ -58,4 +58,12 @@ interface TypeInterface extends ComponentInterface
      * @return TypeInterface[]
      */
     public function getCombinedTypes(): array;
+
+    /**
+     * Checks, if the other type is allowed, assuming that this type is the output and otherType is the input
+     *
+     * @param TypeInterface $otherType
+     * @return bool
+     */
+    public function accepts(TypeInterface $otherType): bool;
 }

@@ -32,61 +32,23 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Component\Socket\Type;
+namespace Ikarus\Logic\Model\Loader;
 
 
-class Type implements TypeInterface
+use Ikarus\Logic\Model\ProjectInterface;
+
+class DataLoader extends AbstractPlainArrayDataLoader
 {
-    /** @var string */
-    private $name;
-    /** @var TypeInterface[] */
-    private $combined = [];
+    private $data;
 
-    /**
-     * Type constructor.
-     * @param string $name
-     */
-    public function __construct(string $name)
+    public function __construct($data, ProjectInterface $project = NULL)
     {
-        $this->name = $name;
+        parent::__construct($project);
+        $this->data = $data;
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getName(): string
+    protected function loadData()
     {
-        return $this->name;
-    }
-
-    /**
-     * @param TypeInterface $withType
-     * @return static
-     */
-    public function combineWithType(TypeInterface $withType)
-    {
-        if(!in_array($withType, $this->combined))
-            $this->combined[] = $withType;
-        return $this;
-    }
-
-    /**
-     * @return TypeInterface[]
-     */
-    public function getCombinedTypes(): array
-    {
-        return $this->combined;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
-    public function accepts(TypeInterface $otherType): bool {
-        if($this === $otherType || in_array( $otherType, $this->getCombinedTypes() ))
-            return true;
-        return false;
+        return $this->data;
     }
 }

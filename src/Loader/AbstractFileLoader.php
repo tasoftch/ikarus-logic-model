@@ -32,61 +32,27 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Component\Socket\Type;
+namespace Ikarus\Logic\Model\Loader;
 
 
-class Type implements TypeInterface
+use Ikarus\Logic\Model\ProjectInterface;
+
+abstract class AbstractFileLoader extends AbstractDataParseLoader
 {
     /** @var string */
-    private $name;
-    /** @var TypeInterface[] */
-    private $combined = [];
+    private $filename;
 
-    /**
-     * Type constructor.
-     * @param string $name
-     */
-    public function __construct(string $name)
+    public function __construct(string $filename, ProjectInterface $project = NULL)
     {
-        $this->name = $name;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getName(): string
-    {
-        return $this->name;
+        parent::__construct($project);
+        $this->filename = $filename;
     }
 
     /**
-     * @param TypeInterface $withType
-     * @return static
+     * @return string
      */
-    public function combineWithType(TypeInterface $withType)
+    public function getFilename(): string
     {
-        if(!in_array($withType, $this->combined))
-            $this->combined[] = $withType;
-        return $this;
-    }
-
-    /**
-     * @return TypeInterface[]
-     */
-    public function getCombinedTypes(): array
-    {
-        return $this->combined;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
-    public function accepts(TypeInterface $otherType): bool {
-        if($this === $otherType || in_array( $otherType, $this->getCombinedTypes() ))
-            return true;
-        return false;
+        return $this->filename;
     }
 }

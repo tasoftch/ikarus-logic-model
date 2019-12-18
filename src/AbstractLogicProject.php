@@ -63,7 +63,6 @@ abstract class AbstractLogicProject implements ProjectInterface
     public function __construct(IdentifierGeneratorInterface $identifierGenerator = NULL)
     {
         $this->identifierGenerator = $identifierGenerator ?: new UniqueStringIdentifierGenerator();
-        $this->identifierGenerator = $identifierGenerator;
     }
 
 

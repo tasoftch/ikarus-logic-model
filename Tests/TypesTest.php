@@ -32,61 +32,44 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Component\Socket\Type;
+/**
+ * SocketsTest.php
+ * ikarus-logic-model
+ *
+ * Created on 2019-12-18 14:46 by thomas
+ */
 
+namespace Ikarus\Logic\Model\Test;
 
-class Type implements TypeInterface
+use Ikarus\Logic\Model\Component\Socket\Type\Type;
+use PHPUnit\Framework\TestCase;
+
+class TypesTest extends TestCase
 {
-    /** @var string */
-    private $name;
-    /** @var TypeInterface[] */
-    private $combined = [];
+    public function testTypes() {
+        $any = new Type("Any");
+        $string = new Type("String");
+        $number = new Type("Number");
 
-    /**
-     * Type constructor.
-     * @param string $name
-     */
-    public function __construct(string $name)
-    {
-        $this->name = $name;
+        $this->assertEquals("Any", $any->getName());
+        $this->assertEquals("String", $string);
+
+        $this->assertEmpty($number->getCombinedTypes());
     }
 
+    public function testCombinations() {
+        $any = new Type("Any");
+        $string = new Type("String");
+        $number = new Type("Number");
 
-    /**
-     * @inheritDoc
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
+        $string->combineWithType($any);
+        $number->combineWithType($any);
+        $number->combineWithType($string);
 
-    /**
-     * @param TypeInterface $withType
-     * @return static
-     */
-    public function combineWithType(TypeInterface $withType)
-    {
-        if(!in_array($withType, $this->combined))
-            $this->combined[] = $withType;
-        return $this;
-    }
+        $this->assertTrue( $number->accepts( $any ) );
+        $this->assertTrue( $string->accepts( $any ) );
+        $this->assertTrue( $any->accepts( $any ) );
 
-    /**
-     * @return TypeInterface[]
-     */
-    public function getCombinedTypes(): array
-    {
-        return $this->combined;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
-    public function accepts(TypeInterface $otherType): bool {
-        if($this === $otherType || in_array( $otherType, $this->getCombinedTypes() ))
-            return true;
-        return false;
+        $this->assertFalse( $any->accepts( $number ) );
     }
 }

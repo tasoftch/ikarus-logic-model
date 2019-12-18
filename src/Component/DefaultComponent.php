@@ -32,18 +32,16 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Component\Socket\Type;
+namespace Ikarus\Logic\Model\Component;
 
 
-class Type implements TypeInterface
+class DefaultComponent implements ComponentInterface
 {
     /** @var string */
     private $name;
-    /** @var TypeInterface[] */
-    private $combined = [];
 
     /**
-     * Type constructor.
+     * DefaultComponent constructor.
      * @param string $name
      */
     public function __construct(string $name)
@@ -53,40 +51,10 @@ class Type implements TypeInterface
 
 
     /**
-     * @inheritDoc
+     * @return string
      */
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @param TypeInterface $withType
-     * @return static
-     */
-    public function combineWithType(TypeInterface $withType)
-    {
-        if(!in_array($withType, $this->combined))
-            $this->combined[] = $withType;
-        return $this;
-    }
-
-    /**
-     * @return TypeInterface[]
-     */
-    public function getCombinedTypes(): array
-    {
-        return $this->combined;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
-    public function accepts(TypeInterface $otherType): bool {
-        if($this === $otherType || in_array( $otherType, $this->getCombinedTypes() ))
-            return true;
-        return false;
     }
 }

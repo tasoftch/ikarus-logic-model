@@ -32,61 +32,35 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Component\Socket\Type;
+namespace Ikarus\Logic\Model\Loader;
 
 
-class Type implements TypeInterface
+use Ikarus\Logic\Model\ProjectInterface;
+
+abstract class AbstractDataParseLoader extends AbstractPartialLoader
 {
-    /** @var string */
-    private $name;
-    /** @var TypeInterface[] */
-    private $combined = [];
+    private $data;
 
-    /**
-     * Type constructor.
-     * @param string $name
-     */
-    public function __construct(string $name)
+    protected function loadScenes(?ProjectInterface &$project)
     {
-        $this->name = $name;
-    }
+        if(NULL === $this->data)
+            $this->data = $this->loadData();
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getName(): string
-    {
-        return $this->name;
+        $this->parseData($this->data, $project);
     }
 
     /**
-     * @param TypeInterface $withType
-     * @return static
+     * Loads the data
+     *
+     * @return mixed
      */
-    public function combineWithType(TypeInterface $withType)
-    {
-        if(!in_array($withType, $this->combined))
-            $this->combined[] = $withType;
-        return $this;
-    }
+    abstract protected function loadData();
 
     /**
-     * @return TypeInterface[]
+     * Parses the data into the project scenes
+     *
+     * @param $data
+     * @param ProjectInterface|null $project
      */
-    public function getCombinedTypes(): array
-    {
-        return $this->combined;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
-    public function accepts(TypeInterface $otherType): bool {
-        if($this === $otherType || in_array( $otherType, $this->getCombinedTypes() ))
-            return true;
-        return false;
-    }
+    abstract protected function parseData($data, ?ProjectInterface &$project);
 }

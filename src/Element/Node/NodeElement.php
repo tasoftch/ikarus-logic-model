@@ -48,6 +48,8 @@ class NodeElement extends AbstractElement implements NodeElementInterface
     /** @var SocketElementInterface[] */
     protected $outputs = [];
 
+    protected $data;
+
     /**
      * @return SceneElementInterface
      */
@@ -70,5 +72,45 @@ class NodeElement extends AbstractElement implements NodeElementInterface
     public function getOutputSocketElements(): array
     {
         return $this->outputs;
+    }
+
+    /**
+     * @param SceneElementInterface $scene
+     */
+    public function setScene(SceneElementInterface $scene): void
+    {
+        $this->scene = $scene;
+    }
+
+    /**
+     * @param SocketElementInterface[] $inputs
+     */
+    public function setInputs(array $inputs): void
+    {
+        $this->inputs = $inputs;
+    }
+
+    /**
+     * @param SocketElementInterface[] $outputs
+     */
+    public function setOutputs(array $outputs): void
+    {
+        $this->outputs = $outputs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param mixed $data
+     */
+    public function setData($data): void
+    {
+        $this->data = $data;
     }
 }
