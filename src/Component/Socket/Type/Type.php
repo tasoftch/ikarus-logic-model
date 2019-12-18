@@ -78,4 +78,9 @@ class Type implements TypeInterface
     {
         return $this->combined;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

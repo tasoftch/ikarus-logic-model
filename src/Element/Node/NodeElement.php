@@ -36,12 +36,12 @@ namespace Ikarus\Logic\Model\Element\Node;
 
 
 use Ikarus\Logic\Model\Element\AbstractElement;
-use Ikarus\Logic\Model\Element\Scene\SceneInterface;
+use Ikarus\Logic\Model\Element\Scene\SceneElementInterface;
 use Ikarus\Logic\Model\Element\Socket\SocketElementInterface;
 
 class NodeElement extends AbstractElement implements NodeElementInterface
 {
-    /** @var SceneInterface */
+    /** @var SceneElementInterface */
     protected $scene;
     /** @var SocketElementInterface[] */
     protected $inputs = [];
@@ -49,9 +49,9 @@ class NodeElement extends AbstractElement implements NodeElementInterface
     protected $outputs = [];
 
     /**
-     * @return SceneInterface
+     * @return SceneElementInterface
      */
-    public function getScene(): SceneInterface
+    public function getScene(): SceneElementInterface
     {
         return $this->scene;
     }

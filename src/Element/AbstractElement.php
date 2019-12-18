@@ -52,7 +52,7 @@ class AbstractElement implements ElementInterface
      * @param ComponentInterface $description
      * @param ProjectInterface|null $project
      */
-    public function __construct(ComponentInterface $component, ?ProjectInterface $project, $identifier = NULL)
+    public function __construct(ComponentInterface $component, ProjectInterface $project, $identifier = NULL)
     {
         $this->identifier = $identifier ?: $project->getIdentifierGenerator()->makeUniqueIdentifier();
         $this->component = $component;
@@ -76,9 +76,9 @@ class AbstractElement implements ElementInterface
     }
 
     /**
-     * @return ProjectInterface|null
+     * @return ProjectInterface
      */
-    public function getProject(): ?ProjectInterface
+    public function getProject(): ProjectInterface
     {
         return $this->project;
     }

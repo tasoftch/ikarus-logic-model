@@ -56,7 +56,7 @@ interface ElementInterface
     /**
      * Gets the project membership of an element or null if the element is not yet in a membership.
      *
-     * @return ProjectInterface|null
+     * @return ProjectInterface
      */
-    public function getProject(): ?ProjectInterface;
+    public function getProject(): ProjectInterface;
 }

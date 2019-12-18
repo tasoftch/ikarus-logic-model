@@ -34,53 +34,7 @@
 
 namespace Ikarus\Logic\Model;
 
-use Ikarus\Logic\Model\Component\ComponentInterface;
-use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
-use Ikarus\Logic\Model\Element\Scene\SceneElementInterface;
-use Ikarus\Logic\Model\IdGen\IdentifierGeneratorInterface;
 
-/**
- * A project is a collection of scenes, nodes and connections between them.
- * Only projects can be compiled and rendered under Ikarus Logic.
- *
- * @package Ikarus\Logic\Model
- */
-interface ProjectInterface
+class LogicProject extends AbstractLogicProject
 {
-    /**
-     * Must return an instance to generate identifiers.
-     *
-     * @return IdentifierGeneratorInterface
-     */
-    public function getIdentifierGenerator(): IdentifierGeneratorInterface;
-
-    /**
-     * Gets all socket types this project knows about.
-     *
-     * @return TypeInterface[]
-     */
-    public function getSocketTypes(): array;
-
-    /**
-     * Gets all components this project knows about
-     *
-     * @return ComponentInterface[]
-     */
-    public function getComponents(): array;
-
-    /**
-     * Gets all scenes
-     *
-     * @return SceneElementInterface[]
-     */
-    public function getScenes(): array;
-
-    /**
-     * Called to determine a scene as top level.
-     * Top level scenes are compiled directly, so their main inputs and outputs are available from outside
-     *
-     * @param SceneElementInterface $sceneElement
-     * @return bool
-     */
-    public function isTopLevelScene(SceneElementInterface $sceneElement): bool;
 }

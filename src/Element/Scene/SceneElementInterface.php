@@ -39,7 +39,7 @@ use Ikarus\Logic\Model\Element\Connection\ConnectionElementInterface;
 use Ikarus\Logic\Model\Element\ElementInterface;
 use Ikarus\Logic\Model\Element\Node\NodeElementInterface;
 
-interface SceneInterface extends ElementInterface
+interface SceneElementInterface extends ElementInterface
 {
     /**
      * Gets all nodes in the scene

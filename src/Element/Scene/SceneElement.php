@@ -36,8 +36,30 @@ namespace Ikarus\Logic\Model\Element\Scene;
 
 
 use Ikarus\Logic\Model\Element\AbstractElement;
+use Ikarus\Logic\Model\Element\Connection\ConnectionElementInterface;
+use Ikarus\Logic\Model\Element\Node\NodeElementInterface;
 
-class SceneElement extends AbstractElement
+class SceneElement extends AbstractElement implements SceneElementInterface
 {
+    /** @var NodeElementInterface[] */
+    protected $nodes = [];
 
+    /** @var ConnectionElementInterface[] */
+    protected $connections = [];
+
+    /**
+     * @return NodeElementInterface[]
+     */
+    public function getNodes(): array
+    {
+        return $this->nodes;
+    }
+
+    /**
+     * @return ConnectionElementInterface[]
+     */
+    public function getConnections(): array
+    {
+        return $this->connections;
+    }
 }
