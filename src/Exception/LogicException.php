@@ -37,7 +37,7 @@ namespace Ikarus\Logic\Model\Exception;
 
 use Throwable;
 
-class ModelException extends \RuntimeException
+class LogicException extends \RuntimeException
 {
     public function __construct($message = "", $code = 0, Throwable $previous = NULL, ...$args)
     {
