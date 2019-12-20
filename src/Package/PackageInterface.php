@@ -35,10 +35,11 @@
 namespace Ikarus\Logic\Model\Package;
 
 use Ikarus\Logic\Model\Component\ComponentInterface;
+use Ikarus\Logic\Model\Component\NodeComponentInterface;
 use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
 
 /**
- * Packages are collections of components and socket types.
+ * Packages are collections of node components and socket types.
  *
  * @package Ikarus\Logic\Model\Package
  */
@@ -54,7 +55,7 @@ interface PackageInterface
     /**
      * Gets new components to import
      *
-     * @return ComponentInterface[]
+     * @return NodeComponentInterface[]
      */
     public function getComponents(): array;
 }
