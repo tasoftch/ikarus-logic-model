@@ -32,40 +32,9 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Data;
+namespace Ikarus\Logic\Model\Exception;
 
-use Ikarus\Logic\Model\Data\Connection\ConnectionDataModelInterface;
-use Ikarus\Logic\Model\Data\Node\NodeDataModelInterface;
-use Ikarus\Logic\Model\Data\Scene\SceneDataModelInterface;
 
-/**
- * The data model knows the workflow and describe it, for example to a compiler.
- *
- * @package Ikarus\Logic\Model
- */
-interface DataModelInterface
+class DuplicateIdentifierException extends InconsistentModelException
 {
-    /**
-     * Gets all scene data models
-     *
-     * @return SceneDataModelInterface[]
-     */
-    public function getSceneDataModels(): array;
-
-    /**
-     * Gets the nodes of a scene
-     *
-     * @param SceneDataModelInterface|string $scene
-     * @return NodeDataModelInterface[]
-     */
-    public function getNodesInScene($scene): array;
-
-    /**
-     * Gets all connections inside a scene
-     * NOTE: Connected nodes must be in the same scene.
-     *
-     * @param SceneDataModelInterface|string $scene
-     * @return ConnectionDataModelInterface[]
-     */
-    public function getConnectionsInScene($scene): array;
 }

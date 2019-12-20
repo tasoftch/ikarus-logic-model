@@ -32,40 +32,46 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Data;
+namespace Ikarus\Logic\Model\Exception;
 
-use Ikarus\Logic\Model\Data\Connection\ConnectionDataModelInterface;
-use Ikarus\Logic\Model\Data\Node\NodeDataModelInterface;
-use Ikarus\Logic\Model\Data\Scene\SceneDataModelInterface;
 
-/**
- * The data model knows the workflow and describe it, for example to a compiler.
- *
- * @package Ikarus\Logic\Model
- */
-interface DataModelInterface
+use Ikarus\Logic\Model\Data\DataModelInterface;
+
+class InconsistentModelException extends LogicException
 {
-    /**
-     * Gets all scene data models
-     *
-     * @return SceneDataModelInterface[]
-     */
-    public function getSceneDataModels(): array;
+    /** @var DataModelInterface */
+    private $model;
+    private $property;
 
     /**
-     * Gets the nodes of a scene
-     *
-     * @param SceneDataModelInterface|string $scene
-     * @return NodeDataModelInterface[]
+     * @return DataModelInterface
      */
-    public function getNodesInScene($scene): array;
+    public function getModel(): DataModelInterface
+    {
+        return $this->model;
+    }
 
     /**
-     * Gets all connections inside a scene
-     * NOTE: Connected nodes must be in the same scene.
-     *
-     * @param SceneDataModelInterface|string $scene
-     * @return ConnectionDataModelInterface[]
+     * @param DataModelInterface $model
      */
-    public function getConnectionsInScene($scene): array;
+    public function setModel(DataModelInterface $model): void
+    {
+        $this->model = $model;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
+
+    /**
+     * @param mixed $property
+     */
+    public function setProperty($property): void
+    {
+        $this->property = $property;
+    }
 }

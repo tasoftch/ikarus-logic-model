@@ -32,29 +32,9 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Component;
+namespace Ikarus\Logic\Model\Exception;
 
 
-class DefaultComponent implements ComponentInterface
+class InvalidSceneIdentifierException extends InconsistentModelException
 {
-    /** @var string */
-    private $name;
-
-    /**
-     * DefaultComponent constructor.
-     * @param string $name
-     */
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
 }
