@@ -37,6 +37,8 @@ namespace Ikarus\Logic\Model;
 
 use Ikarus\Logic\Model\Component\NodeComponentInterface;
 use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
+use Ikarus\Logic\Model\Exception\ComponentNotFoundException;
+use Ikarus\Logic\Model\Exception\SocketComponentNotFoundException;
 use Ikarus\Logic\Model\Package\PackageInterface;
 use TASoft\Collection\PriorityCollection;
 
@@ -68,7 +70,13 @@ class PriorityComponentModel extends AbstractComponentModel
      * @param $component
      */
     public function removeComponent($component) {
-        $this->components->remove($component);
+        if(is_object($component) && method_exists($component, 'getName'))
+            $component = $component->getName();
+
+        try {
+            $this->components->remove(is_string($component) ? $this->getComponent($component) : $component);
+        } catch (ComponentNotFoundException $exception) {
+        }
     }
 
     /**
@@ -88,7 +96,12 @@ class PriorityComponentModel extends AbstractComponentModel
      * @param $socketType
      */
     public function removeSocketType($socketType) {
-        $this->socketTypes->remove($socketType);
+        if(is_object($socketType) && method_exists($socketType, 'getName'))
+            $socketType = $socketType->getName();
+        try {
+            $this->socketTypes->remove(is_string($socketType) ? $this->getSocketType($socketType) : $socketType);
+        } catch (SocketComponentNotFoundException $exception) {
+        }
     }
 
     /**
@@ -119,7 +132,7 @@ class PriorityComponentModel extends AbstractComponentModel
     /**
      * @inheritDoc
      */
-    protected function getComponents(): array
+    public function getComponents(): array
     {
         return $this->components->getOrderedElements();
     }
@@ -127,7 +140,7 @@ class PriorityComponentModel extends AbstractComponentModel
     /**
      * @inheritDoc
      */
-    protected function getSocketTypes(): array
+    public function getSocketTypes(): array
     {
         return $this->socketTypes->getOrderedElements();
     }

@@ -45,9 +45,15 @@ abstract class AbstractComponentModel implements ComponentModelInterface
 {
     public function getComponent($name): NodeComponentInterface
     {
+        if(is_object($name) && method_exists($name, 'getName'))
+            $name = $name->getName();
+
         $all = $this->getComponents();
-        if($c = $all[$name] ?? NULL)
-            return $c;
+        /** @var NodeComponentInterface $cmp */
+        foreach($all as $cmp) {
+            if($cmp->getName() == $name)
+                return $cmp;
+        }
         $e = new ComponentNotFoundException("Component $name not found");
         $e->setComponentName($name);
         throw $e;
@@ -55,9 +61,15 @@ abstract class AbstractComponentModel implements ComponentModelInterface
 
     public function getSocketType($name): TypeInterface
     {
+        if(is_object($name) && method_exists($name, 'getName'))
+            $name = $name->getName();
+
         $all = $this->getSocketTypes();
-        if($c = $all[$name] ?? NULL)
-            return $c;
+        /** @var TypeInterface $cmp */
+        foreach($all as $cmp) {
+            if($cmp->getName() == $name)
+                return $cmp;
+        }
         $e = new SocketComponentNotFoundException("Socket Type $name not found");
         $e->setComponentName($name);
         throw $e;
