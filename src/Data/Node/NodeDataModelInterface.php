@@ -34,7 +34,7 @@
 
 namespace Ikarus\Logic\Model\Data\Node;
 
-use Ikarus\Logic\Model\ComponentModelInterface;
+use Ikarus\Logic\Model\Component\ComponentModelInterface;
 use Ikarus\Logic\Model\Data\IdentifiedDataModelInterface;
 
 /**

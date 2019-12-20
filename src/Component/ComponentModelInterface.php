@@ -32,50 +32,39 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Data\Connection;
+namespace Ikarus\Logic\Model\Component;
 
-use Ikarus\Logic\Model\Component\Socket\SocketComponentInterface;
-use Ikarus\Logic\Model\Component\ComponentModelInterface;
-use Ikarus\Logic\Model\Data\DataModelInterface;
+use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
+use Ikarus\Logic\Model\Exception\ComponentNotFoundException;
+use Ikarus\Logic\Model\Exception\SocketComponentNotFoundException;
 
 /**
- * Describes how two nodes are connected.
+ * Component model instances deliver a compiler or an engine with the information of how nodes are setup and rendered.
  *
- * @package Ikarus\Logic\Model\Data\Connection
+ * @package Ikarus\Logic\Model
  */
-interface ConnectionDataModelInterface
+interface ComponentModelInterface
 {
     /**
-     * Gets the input node identifier.
+     * This method is asked every time a specific component is required.
+     * That may be for compilation or for render.
      *
-     * @return string|int
-     * @see DataModelInterface::getNodesInScene()
+     * A compiler or engine NEVER caches components! It will always fetch it from the model.
+     *
+     * @param $name
+     * @return NodeComponentInterface
+     * @throws ComponentNotFoundException
      */
-    public function getInputNodeIdentifier();
+    public function getComponent($name): NodeComponentInterface;
 
     /**
-     * Gets the input socket name of the input node
+     * This method is asked to obtain socket type descriptions.
      *
-     * @return string
-     * @see SocketComponentInterface::getName()
-     * @see ComponentModelInterface::getComponent()
-     */
-    public function getInputSocketName(): string;
-
-    /**
-     * Gets the output node identifier.
+     * A compiler or engine NEVER caches socket types! It will always fetch it from the model.
      *
-     * @return string|int
-     * @see DataModelInterface::getNodesInScene()
+     * @param $name
+     * @return TypeInterface
+     * @throws SocketComponentNotFoundException
      */
-    public function getOutputNodeIdentifier();
-
-    /**
-     * Gets the output socket name of the output node
-     *
-     * @return string
-     * @see SocketComponentInterface::getName()
-     * @see ComponentModelInterface::getComponent()
-     */
-    public function getOutputSocketName(): string;
+    public function getSocketType($name): TypeInterface;
 }
