@@ -51,13 +51,20 @@ class PHPArrayLoader extends AbstractLoader implements ArrayAccess
     const NAME_KEY = 'name';
     const DATA_KEY = 'data';
 
-    const CONNECTION_SRC_NODE_KEY = 'src';
+    const CONNECTION_INPUT_NODE_KEY = 'src';
     const CONNECTION_INPUT_KEY = 'input';
-    const CONNECTION_DST_NODE_KEY = 'dst';
+    const CONNECTION_OUTPUT_NODE_KEY = 'dst';
     const CONNECTION_OUTPUT_KEY = 'output';
 
     /** @var array */
     private $data;
+
+    /**
+     * If set to true, the loader will use the array index of scenes and nodes as their identifier
+     *
+     * @var bool
+     */
+    public $useIndicesAsIdentifiers = false;
 
     /**
      * PHPArrayLoader constructor.
@@ -92,14 +99,14 @@ class PHPArrayLoader extends AbstractLoader implements ArrayAccess
 
         try {
             if(is_iterable($scenes = $this->getData()[ static::SCENES_KEY ] ?? NULL)) {
-                foreach($scenes as $scene) {
-                    $sid = $this->getIdentifier($scene);
+                foreach($scenes as $sid => $scene) {
+                    $sid = $this->useIndicesAsIdentifiers ? $sid : $this->getIdentifier($scene);
 
                     if($nodes = $scene[ static::NODES_KEY ] ?? NULL) {
                         $model->addScene($sid, $scene[static::DATA_KEY] ?? NULL);
 
-                        foreach($nodes as $node) {
-                            $nid = $this->getIdentifier($node);
+                        foreach($nodes as $nid => $node) {
+                            $nid = $this->useIndicesAsIdentifiers ? $nid : $this->getIdentifier($node);
                             $name = $this->getName($node, false, false);
 
                             $model->addNode($nid, $name, $sid, $node[ static::DATA_KEY ] ?? NULL);
@@ -107,9 +114,9 @@ class PHPArrayLoader extends AbstractLoader implements ArrayAccess
 
                         foreach(($scene[ static::CONNECTIONS_KEY ] ?? []) as $connection) {
                             $model->connect(
-                                $connection[ static::CONNECTION_SRC_NODE_KEY ],
+                                $connection[ static::CONNECTION_INPUT_NODE_KEY ],
                                 $connection[ static::CONNECTION_INPUT_KEY ],
-                                $connection[ static::CONNECTION_DST_NODE_KEY ],
+                                $connection[ static::CONNECTION_OUTPUT_NODE_KEY ],
                                 $connection[ static::CONNECTION_OUTPUT_KEY ]
                             );
                         }
