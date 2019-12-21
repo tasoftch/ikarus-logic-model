@@ -36,11 +36,19 @@ namespace Ikarus\Logic\Model\Test\Component;
 
 
 use Ikarus\Logic\Model\Component\AbstractNodeComponent;
+use Ikarus\Logic\Model\Component\Socket\InputComponent;
 
 class OneInputComponent extends AbstractNodeComponent
 {
     public function getName(): string
     {
         return "ONE_INPUT";
+    }
+
+    protected function makeSocketComponents(): array
+    {
+        return [
+            new InputComponent("input", "String")
+        ];
     }
 }

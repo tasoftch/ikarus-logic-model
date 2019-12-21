@@ -35,26 +35,26 @@
 namespace Ikarus\Logic\Model\Exception;
 
 
-use Ikarus\Logic\Model\Data\DataModelInterface;
+use Ikarus\Logic\Model\Component\ComponentModelInterface;
 
-class InconsistentModelException extends LogicException
+class InconsistentComponentModelException extends LogicException
 {
-    /** @var DataModelInterface */
+    /** @var ComponentModelInterface */
     private $model;
     private $property;
 
     /**
-     * @return DataModelInterface
+     * @return ComponentModelInterface
      */
-    public function getModel(): DataModelInterface
+    public function getModel(): ComponentModelInterface
     {
         return $this->model;
     }
 
     /**
-     * @param DataModelInterface $model
+     * @param ComponentModelInterface $model
      */
-    public function setModel(DataModelInterface $model): void
+    public function setModel(ComponentModelInterface $model): void
     {
         $this->model = $model;
     }

@@ -35,18 +35,6 @@
 namespace Ikarus\Logic\Model\Exception;
 
 
-use RuntimeException;
-use Throwable;
-
-class LogicException extends RuntimeException
+class DuplicateNameException extends InconsistentComponentModelException
 {
-    const CODE_SYMBOL_NOT_FOUND = 99;
-    const CODE_INVALID_INSTANCE = 77;
-    const CODE_DUPLICATE_SYMBOL = 88;
-    const CODE_INVALID_PLACEMENT = 102;
-
-    public function __construct($message = "", $code = 0, Throwable $previous = NULL, ...$args)
-    {
-        parent::__construct(vsprintf($message, $args), $code, $previous);
-    }
 }

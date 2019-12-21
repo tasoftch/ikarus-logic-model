@@ -32,21 +32,15 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Exception;
+namespace Ikarus\Logic\Model\Test\Component;
 
 
-use RuntimeException;
-use Throwable;
+use Ikarus\Logic\Model\Component\AbstractNodeComponent;
 
-class LogicException extends RuntimeException
+class SocketLessComponent extends AbstractNodeComponent
 {
-    const CODE_SYMBOL_NOT_FOUND = 99;
-    const CODE_INVALID_INSTANCE = 77;
-    const CODE_DUPLICATE_SYMBOL = 88;
-    const CODE_INVALID_PLACEMENT = 102;
-
-    public function __construct($message = "", $code = 0, Throwable $previous = NULL, ...$args)
+    public function getName(): string
     {
-        parent::__construct(vsprintf($message, $args), $code, $previous);
+        return "SOCKET_LESS";
     }
 }

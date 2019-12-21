@@ -54,7 +54,7 @@ abstract class AbstractComponentModel implements ComponentModelInterface
             if($cmp->getName() == $name)
                 return $cmp;
         }
-        $e = new ComponentNotFoundException("Component $name not found");
+        $e = new ComponentNotFoundException("Component $name not found", ComponentNotFoundException::CODE_SYMBOL_NOT_FOUND);
         $e->setComponentName($name);
         throw $e;
     }
@@ -70,7 +70,7 @@ abstract class AbstractComponentModel implements ComponentModelInterface
             if($cmp->getName() == $name)
                 return $cmp;
         }
-        $e = new SocketComponentNotFoundException("Socket Type $name not found");
+        $e = new SocketComponentNotFoundException("Socket Type $name not found", SocketComponentNotFoundException::CODE_SYMBOL_NOT_FOUND);
         $e->setComponentName($name);
         throw $e;
     }

@@ -35,6 +35,6 @@
 namespace Ikarus\Logic\Model\Exception;
 
 
-class InvalidSceneIdentifierException extends InconsistentModelException
+class InvalidSceneIdentifierException extends InconsistentDataModelException
 {
 }

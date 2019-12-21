@@ -32,21 +32,9 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Exception;
+namespace Ikarus\Logic\Model\Component\Socket;
 
 
-use RuntimeException;
-use Throwable;
-
-class LogicException extends RuntimeException
+interface InputSocketComponentInterface extends SocketComponentInterface
 {
-    const CODE_SYMBOL_NOT_FOUND = 99;
-    const CODE_INVALID_INSTANCE = 77;
-    const CODE_DUPLICATE_SYMBOL = 88;
-    const CODE_INVALID_PLACEMENT = 102;
-
-    public function __construct($message = "", $code = 0, Throwable $previous = NULL, ...$args)
-    {
-        parent::__construct(vsprintf($message, $args), $code, $previous);
-    }
 }

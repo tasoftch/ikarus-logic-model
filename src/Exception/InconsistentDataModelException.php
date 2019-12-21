@@ -35,18 +35,43 @@
 namespace Ikarus\Logic\Model\Exception;
 
 
-use RuntimeException;
-use Throwable;
+use Ikarus\Logic\Model\Data\DataModelInterface;
 
-class LogicException extends RuntimeException
+class InconsistentDataModelException extends LogicException
 {
-    const CODE_SYMBOL_NOT_FOUND = 99;
-    const CODE_INVALID_INSTANCE = 77;
-    const CODE_DUPLICATE_SYMBOL = 88;
-    const CODE_INVALID_PLACEMENT = 102;
+    /** @var DataModelInterface */
+    private $model;
+    private $property;
 
-    public function __construct($message = "", $code = 0, Throwable $previous = NULL, ...$args)
+    /**
+     * @return DataModelInterface
+     */
+    public function getModel(): DataModelInterface
     {
-        parent::__construct(vsprintf($message, $args), $code, $previous);
+        return $this->model;
+    }
+
+    /**
+     * @param DataModelInterface $model
+     */
+    public function setModel(DataModelInterface $model): void
+    {
+        $this->model = $model;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProperty()
+    {
+        return $this->property;
+    }
+
+    /**
+     * @param mixed $property
+     */
+    public function setProperty($property): void
+    {
+        $this->property = $property;
     }
 }

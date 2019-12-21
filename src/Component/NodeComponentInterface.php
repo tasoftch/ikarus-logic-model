@@ -35,21 +35,22 @@
 namespace Ikarus\Logic\Model\Component;
 
 
-use Ikarus\Logic\Model\Component\Socket\SocketComponentInterface;
+use Ikarus\Logic\Model\Component\Socket\InputSocketComponentInterface;
+use Ikarus\Logic\Model\Component\Socket\OutputSocketComponentInterface;
 
 interface NodeComponentInterface extends ComponentInterface
 {
     /**
      * Declares all inputs that a final node should have
      *
-     * @return SocketComponentInterface[]|null
+     * @return InputSocketComponentInterface[]|null
      */
     public function getInputSockets(): ?array;
 
     /**
      * Declares all outputs that a final node should have
      *
-     * @return SocketComponentInterface[]|null
+     * @return OutputSocketComponentInterface[]|null
      */
     public function getOutputSockets(): ?array;
 }

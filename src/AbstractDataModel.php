@@ -85,7 +85,7 @@ abstract class AbstractDataModel implements DataModelInterface
      */
     public function addSceneDataModel(SceneDataModelInterface $model) {
         if($this->hasIdentifier($model->getIdentifier() )) {
-            $e = new DuplicateIdentifierException("Scene with id %s already exists", 77, NULL, $model->getIdentifier());
+            $e = new DuplicateIdentifierException("Scene with id %s already exists", DuplicateIdentifierException::CODE_DUPLICATE_SYMBOL, NULL, $model->getIdentifier());
             $e->setModel($this);
             $e->setProperty($model);
             throw $e;
@@ -132,14 +132,14 @@ abstract class AbstractDataModel implements DataModelInterface
             $scene = $scene->getIdentifier();
 
         if($this->hasIdentifier($model->getIdentifier() )) {
-            $e = new DuplicateIdentifierException("Node with id %s already exists", 99, NULL, $model->getIdentifier());
+            $e = new DuplicateIdentifierException("Node with id %s already exists", DuplicateIdentifierException::CODE_DUPLICATE_SYMBOL, NULL, $model->getIdentifier());
             $e->setModel($this);
             $e->setProperty($model);
             throw $e;
         }
 
         if(!isset($this->sceneDataModels[$scene])) {
-            $e = new InvalidSceneIdentifierException("Scene %s does not exist", 88, NULL, $scene);
+            $e = new InvalidSceneIdentifierException("Scene %s does not exist", InvalidSceneIdentifierException::CODE_SYMBOL_NOT_FOUND, NULL, $scene);
             $e->setModel($this);
             $e->setProperty($model);
             throw $e;
@@ -190,7 +190,7 @@ abstract class AbstractDataModel implements DataModelInterface
             $scene = $scene->getIdentifier();
 
         if(!isset($this->sceneDataModels[$scene])) {
-            $e = new InvalidSceneIdentifierException("Scene %s does not exist", 88, NULL, $scene);
+            $e = new InvalidSceneIdentifierException("Scene %s does not exist", InvalidSceneIdentifierException::CODE_SYMBOL_NOT_FOUND, NULL, $scene);
             $e->setModel($this);
             $e->setProperty($model);
             throw $e;

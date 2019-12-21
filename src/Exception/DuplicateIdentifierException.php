@@ -35,6 +35,6 @@
 namespace Ikarus\Logic\Model\Exception;
 
 
-class DuplicateIdentifierException extends InconsistentModelException
+class DuplicateIdentifierException extends InconsistentDataModelException
 {
 }

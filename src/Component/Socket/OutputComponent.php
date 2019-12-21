@@ -37,7 +37,7 @@ namespace Ikarus\Logic\Model\Component\Socket;
 
 use Ikarus\Logic\Model\Package\BasicTypesPackage;
 
-class OutputComponent extends AbstractSocketComponent
+class OutputComponent extends AbstractSocketComponent implements OutputSocketComponentInterface
 {
     /**
      * Output constructor.

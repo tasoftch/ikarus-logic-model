@@ -35,16 +35,23 @@
 namespace Ikarus\Logic\Model\Component;
 
 
+use Ikarus\Logic\Model\Component\Socket\InputSocketComponentInterface;
+use Ikarus\Logic\Model\Component\Socket\OutputSocketComponentInterface;
+use Ikarus\Logic\Model\Exception\DuplicateNameException;
+use Ikarus\Logic\Model\Exception\InconsistentComponentModelException;
+
 abstract class AbstractNodeComponent implements NodeComponentInterface
 {
-    protected $inputSockets = [];
-    protected $outputSockets = [];
+    protected $inputSockets;
+    protected $outputSockets;
 
     /**
      * @return array
      */
     public function getInputSockets(): ?array
     {
+        if(NULL === $this->inputSockets)
+            $this->_resolveSocketList( $this->makeSocketComponents() );
         return $this->inputSockets;
     }
 
@@ -53,6 +60,45 @@ abstract class AbstractNodeComponent implements NodeComponentInterface
      */
     public function getOutputSockets(): ?array
     {
+        if(NULL === $this->outputSockets)
+            $this->_resolveSocketList( $this->makeSocketComponents() );
         return $this->outputSockets;
+    }
+
+    private function _resolveSocketList($sockets) {
+        $this->inputSockets = $this->outputSockets = $list = [];
+
+        foreach($sockets as $socket) {
+            if($socket instanceof InputSocketComponentInterface) {
+                if(in_array($socket->getName(), $list)) {
+                    $e = new DuplicateNameException("Input socket component %s already exists", DuplicateNameException::CODE_DUPLICATE_SYMBOL, NULL, $socket->getName());
+                    $e->setProperty($socket);
+                    throw $e;
+                }
+                $this->inputSockets[ $socket->getName() ] = $socket;
+                $list[] = $socket->getName();
+            } elseif($socket instanceof OutputSocketComponentInterface) {
+                if(in_array($socket->getName(), $list)) {
+                    $e = new DuplicateNameException("Output socket component %s already exists", DuplicateNameException::CODE_DUPLICATE_SYMBOL, NULL, $socket->getName());
+                    $e->setProperty($socket);
+                    throw $e;
+                }
+                $this->outputSockets[ $socket->getName() ] = $socket;
+                $list[] = $socket->getName();
+            } else {
+                $e = new InconsistentComponentModelException("Object in socket list is not a socket component", InconsistentComponentModelException::CODE_INVALID_INSTANCE);
+                $e->setProperty($socket);
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * Override this method to create all socket components
+     *
+     * @return InputSocketComponentInterface[]|OutputSocketComponentInterface[]
+     */
+    protected function makeSocketComponents(): array {
+        return [];
     }
 }

@@ -36,11 +36,19 @@ namespace Ikarus\Logic\Model\Test\Component;
 
 
 use Ikarus\Logic\Model\Component\AbstractNodeComponent;
+use Ikarus\Logic\Model\Component\Socket\OutputComponent;
 
 class OneOutputComponent extends AbstractNodeComponent
 {
     public function getName(): string
     {
         return "ONE_OUTPUT";
+    }
+
+    protected function makeSocketComponents(): array
+    {
+        return [
+            new OutputComponent("output", "Boolean")
+        ];
     }
 }

@@ -36,6 +36,8 @@ namespace Ikarus\Logic\Model\Test\Component;
 
 
 use Ikarus\Logic\Model\Component\AbstractNodeComponent;
+use Ikarus\Logic\Model\Component\Socket\InputComponent;
+use Ikarus\Logic\Model\Component\Socket\OutputComponent;
 
 class OneInputAndOneOutputComponent extends AbstractNodeComponent
 {
@@ -44,4 +46,11 @@ class OneInputAndOneOutputComponent extends AbstractNodeComponent
         return "INPUT_OUTPUT";
     }
 
+    protected function makeSocketComponents(): array
+    {
+        return [
+            new InputComponent("input", "String"),
+            new OutputComponent("output", "Boolean")
+        ];
+    }
 }

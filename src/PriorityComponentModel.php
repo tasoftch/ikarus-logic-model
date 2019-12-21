@@ -38,6 +38,7 @@ namespace Ikarus\Logic\Model;
 use Ikarus\Logic\Model\Component\NodeComponentInterface;
 use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
 use Ikarus\Logic\Model\Exception\ComponentNotFoundException;
+use Ikarus\Logic\Model\Exception\InconsistentDataModelException;
 use Ikarus\Logic\Model\Exception\SocketComponentNotFoundException;
 use Ikarus\Logic\Model\Package\PackageInterface;
 use TASoft\Collection\PriorityCollection;
@@ -46,6 +47,8 @@ class PriorityComponentModel extends AbstractComponentModel
 {
     private $components;
     private $socketTypes;
+
+    private $nameDuplicateProtection = [];
 
     public function __construct()
     {
@@ -60,7 +63,13 @@ class PriorityComponentModel extends AbstractComponentModel
      * @param int $priority
      */
     public function addComponent(NodeComponentInterface $component, int $priority = 0) {
+        if(isset($this->nameDuplicateProtection[$component->getName()])) {
+            $e = new InconsistentDataModelException("Component with name %s already exists", 88, NULL, $component->getName());
+            $e->setProperty($component);
+            throw $e;
+        }
         $this->components->add($priority, $component);
+        $this->nameDuplicateProtection[ $component->getName() ] = $component;
     }
 
     /**
@@ -75,6 +84,7 @@ class PriorityComponentModel extends AbstractComponentModel
 
         try {
             $this->components->remove(is_string($component) ? $this->getComponent($component) : $component);
+            unset($this->nameDuplicateProtection[ $component ]);
         } catch (ComponentNotFoundException $exception) {
         }
     }
@@ -86,7 +96,13 @@ class PriorityComponentModel extends AbstractComponentModel
      * @param int $priority
      */
     public function addSocketType(TypeInterface $socketType, int $priority = 0) {
+        if(isset($this->nameDuplicateProtection[$socketType->getName()])) {
+            $e = new InconsistentDataModelException("Component with name %s already exists", 88, NULL, $socketType->getName());
+            $e->setProperty($socketType);
+            throw $e;
+        }
         $this->socketTypes->add($priority, $socketType);
+        $this->nameDuplicateProtection[ $socketType->getName() ] = $socketType;
     }
 
     /**
@@ -100,6 +116,7 @@ class PriorityComponentModel extends AbstractComponentModel
             $socketType = $socketType->getName();
         try {
             $this->socketTypes->remove(is_string($socketType) ? $this->getSocketType($socketType) : $socketType);
+            unset($this->nameDuplicateProtection[ $socketType ]);
         } catch (SocketComponentNotFoundException $exception) {
         }
     }

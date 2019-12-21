@@ -42,7 +42,7 @@ use Ikarus\Logic\Model\Data\Node\NodeDataModelInterface;
 use Ikarus\Logic\Model\Data\Scene\AttributedSceneDataModel;
 use Ikarus\Logic\Model\Data\Scene\SceneDataModel;
 use Ikarus\Logic\Model\Data\Scene\SceneDataModelInterface;
-use Ikarus\Logic\Model\Exception\InconsistentModelException;
+use Ikarus\Logic\Model\Exception\InconsistentDataModelException;
 
 class DataModel extends AbstractDataModel
 {
@@ -85,7 +85,7 @@ class DataModel extends AbstractDataModel
     public function connect($inputNode, string $inputName, $outputNode, string $outputName) {
         $inid = $this->nodeSceneMap[$inputNode instanceof NodeDataModelInterface ? $inputNode->getIdentifier() : $inputNode] ?? NULL;
         if(!$inid) {
-            $e = new InconsistentModelException("No input node $inputNode found");
+            $e = new InconsistentDataModelException("No input node $inputNode found", InconsistentDataModelException::CODE_SYMBOL_NOT_FOUND);
             $e->setModel($this);
             $e->setProperty($inputNode);
             throw $e;
@@ -93,14 +93,14 @@ class DataModel extends AbstractDataModel
 
         $onid = $this->nodeSceneMap[$outputNode instanceof NodeDataModelInterface ? $outputNode->getIdentifier() : $outputNode] ?? NULL;
         if(!$onid) {
-            $e = new InconsistentModelException("No output node $outputNode found");
+            $e = new InconsistentDataModelException("No output node $outputNode found", InconsistentDataModelException::CODE_SYMBOL_NOT_FOUND);
             $e->setModel($this);
             $e->setProperty($outputNode);
             throw $e;
         }
 
         if($onid != $inid) {
-            $e = new InconsistentModelException("Input and output node must be in the same scene");
+            $e = new InconsistentDataModelException("Input and output node must be in the same scene", InconsistentDataModelException::CODE_INVALID_PLACEMENT);
             $e->setModel($this);
             $e->setProperty([$inputNode, $outputNode]);
             throw $e;

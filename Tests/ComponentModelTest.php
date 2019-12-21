@@ -91,6 +91,16 @@ class ComponentModelTest extends TestCase
         $this->assertSame($c2, $model->getComponent( new OneInputAndOneOutputComponent() ));
     }
 
+    /**
+     * @expectedException \Ikarus\Logic\Model\Exception\InconsistentDataModelException
+     */
+    public function testDoubleNamedComponent() {
+        $model = new PriorityComponentModel();
+
+        $model->addComponent( $c1 = new OneInputComponent(), 15 );
+        $model->addComponent( $c2 = new OneInputComponent(), 5 );
+    }
+
     public function testAddingSocketTypes() {
         $model = new PriorityComponentModel();
 
@@ -161,5 +171,39 @@ class ComponentModelTest extends TestCase
 
         $this->assertCount( 0, $model->getComponents() );
         $this->assertCount(0, $model->getSocketTypes());
+    }
+
+    /**
+     * @expectedException \Ikarus\Logic\Model\Exception\InconsistentDataModelException
+     */
+    public function testDoubleNamedSocket() {
+        $model = new PriorityComponentModel();
+
+        $model->addSocketType($c2 = new Type("Number"));
+        $model->addSocketType($c3 = new Type("Number"));
+    }
+
+    public function testDoubleNamesAfterRemove() {
+        $model = new PriorityComponentModel();
+
+        $model->addSocketType($c2 = new Type("Number"));
+        $model->addSocketType($c3 = new Type("Boolean"));
+
+        $model->removeSocketType("Number");
+        $model->addSocketType($c2 = new Type("Number"));
+
+        $this->assertSame([$c3, $c2], $model->getSocketTypes());
+    }
+
+    public function testDoubleNamesCompsAfterRemove() {
+        $model = new PriorityComponentModel();
+
+        $model->addComponent( $c1 = new OneInputComponent(), 15 );
+        $model->addComponent( $c2 = new OneOutputComponent(), 5 );
+
+        $model->removeComponent($c1);
+        $model->addComponent( $c1 = new OneInputComponent(), 15 );
+
+        $this->assertSame([$c2, $c1], $model->getComponents());
     }
 }

@@ -32,21 +32,27 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Exception;
+namespace Ikarus\Logic\Model\Test\Component;
 
 
-use RuntimeException;
-use Throwable;
+use Ikarus\Logic\Model\Component\AbstractNodeComponent;
+use Ikarus\Logic\Model\Component\Socket\InputComponent;
+use Ikarus\Logic\Model\Component\Socket\OutputComponent;
+use stdClass;
 
-class LogicException extends RuntimeException
+class WrongSocketClassComponent extends AbstractNodeComponent
 {
-    const CODE_SYMBOL_NOT_FOUND = 99;
-    const CODE_INVALID_INSTANCE = 77;
-    const CODE_DUPLICATE_SYMBOL = 88;
-    const CODE_INVALID_PLACEMENT = 102;
-
-    public function __construct($message = "", $code = 0, Throwable $previous = NULL, ...$args)
+    public function getName(): string
     {
-        parent::__construct(vsprintf($message, $args), $code, $previous);
+        return "WRONG_SOCKET";
+    }
+
+    protected function makeSocketComponents(): array
+    {
+        return [
+            new InputComponent("input"),
+            new OutputComponent("output"),
+            new stdClass()
+        ];
     }
 }
