@@ -32,29 +32,35 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Package;
+namespace Ikarus\Logic\Model\Data\Loader;
 
-use Ikarus\Logic\Model\Component\NodeComponentInterface;
-use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
 
-/**
- * Packages are collections of node components and socket types.
- *
- * @package Ikarus\Logic\Model\Package
- */
-interface PackageInterface
+use Ikarus\Logic\Model\Data\DataModelInterface;
+
+abstract class AbstractLoader implements LoaderInterface
 {
-    /**
-     * Gets new socket types to import
-     *
-     * @return TypeInterface[]
-     */
-    public function getSocketTypes(): array;
+    /** @var DataModelInterface */
+    protected $model;
 
     /**
-     * Gets new components to import
-     *
-     * @return NodeComponentInterface[]
+     * @return DataModelInterface
      */
-    public function getComponents(): array;
+    public function getModel(): DataModelInterface
+    {
+        if(NULL === $this->model)
+            $this->model = $this->makeModel();
+        return $this->model;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasModel(): bool {
+        return NULL !== $this->model ? true : false;
+    }
+
+    /**
+     * @return DataModelInterface
+     */
+    abstract protected function makeModel(): DataModelInterface;
 }

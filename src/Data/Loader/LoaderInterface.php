@@ -32,29 +32,15 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Package;
+namespace Ikarus\Logic\Model\Data\Loader;
 
-use Ikarus\Logic\Model\Component\NodeComponentInterface;
-use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
 
-/**
- * Packages are collections of node components and socket types.
- *
- * @package Ikarus\Logic\Model\Package
- */
-interface PackageInterface
+use Ikarus\Logic\Model\Data\DataModelInterface;
+
+interface LoaderInterface
 {
     /**
-     * Gets new socket types to import
-     *
-     * @return TypeInterface[]
+     * @return DataModelInterface
      */
-    public function getSocketTypes(): array;
-
-    /**
-     * Gets new components to import
-     *
-     * @return NodeComponentInterface[]
-     */
-    public function getComponents(): array;
+    public function getModel(): DataModelInterface;
 }

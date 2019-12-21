@@ -20,7 +20,6 @@
   },
   "require" : {
     "php": "^7.2",
-    "ext-json": "*",
     "tasoft/collection": "dev-master"
   },
   "require-dev": {
