@@ -34,43 +34,54 @@
 
 namespace Ikarus\Logic\Model\Package;
 
-use Ikarus\Logic\Model\Component\Socket\Type\Type;
 
-class BasicTypesPackage extends AbstractPackage
+use Ikarus\Logic\Model\Component\NodeComponentInterface;
+use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
+
+abstract class AbstractPackage implements PackageInterface
 {
-    const TYPE_SIGNAL = 'Signal';
+    /** @var NodeComponentInterface[] */
+    protected $components;
+    /** @var TypeInterface[] */
+    protected $socketTypes;
 
-    const TYPE_ANY = 'Any';
-    const TYPE_STRING = 'String';
-    const TYPE_NUMBER = 'Number';
-    const TYPE_BOOLEAN = 'Boolean';
-
-    protected function makeComponents(): array
+    /**
+     * @return NodeComponentInterface[]
+     */
+    public function getComponents(): array
     {
-        $any = new Type(static::TYPE_ANY);
-        $number = new Type(static::TYPE_NUMBER);
-        $string = new Type(static::TYPE_STRING);
-        $bool = new Type(static::TYPE_BOOLEAN);
-
-        $any
-            ->combineWithType($number)
-            ->combineWithType($string)
-            ->combineWithType($bool)
-        ;
-
-        $number->combineWithType($string);
-
-        $string
-            ->combineWithType($number)
-            ->combineWithType($bool)
-        ;
-
-        return [
-            new Type(static::TYPE_SIGNAL),
-            $any,
-            $string,
-            $number,
-            $bool
-        ];
+        if(NULL === $this->components)
+            $this->_resolveComponents();
+        return $this->components;
     }
+
+    /**
+     * @return TypeInterface[]
+     */
+    public function getSocketTypes(): array
+    {
+        if(NULL === $this->socketTypes)
+            $this->_resolveComponents();
+        return $this->socketTypes;
+    }
+
+    private function _resolveComponents() {
+        $this->components = $this->socketTypes = [];
+
+        foreach($this->makeComponents() as $component) {
+            if($component instanceof TypeInterface)
+                $this->socketTypes[ $component->getName() ] = $component;
+            elseif($component instanceof NodeComponentInterface)
+                $this->components[ $component->getName() ] = $component;
+            else
+                trigger_error(sprintf("Component of class %s is not supported", get_class($component)), E_USER_WARNING);
+        }
+    }
+
+    /**
+     * Makes all components
+     *
+     * @return TypeInterface[]|NodeComponentInterface[]
+     */
+    abstract protected function makeComponents(): array;
 }
