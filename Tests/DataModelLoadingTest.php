@@ -272,7 +272,7 @@ class DataModelLoadingTest extends TestCase
     }
 
     /**
-     * @expectedException \Ikarus\Logic\Model\Exception\InconsistentDataModelException
+     * @expectedException \Ikarus\Logic\Model\Exception\InvalidReferenceException
      * @expectedExceptionCode 99
      */
     public function testInvalidInputNodeRefException() {
@@ -307,7 +307,7 @@ class DataModelLoadingTest extends TestCase
     }
 
     /**
-     * @expectedException \Ikarus\Logic\Model\Exception\InconsistentDataModelException
+     * @expectedException \Ikarus\Logic\Model\Exception\InvalidReferenceException
      * @expectedExceptionCode 99
      */
     public function testInvalidOutputNodeRefException() {

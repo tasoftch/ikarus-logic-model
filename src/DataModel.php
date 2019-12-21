@@ -43,6 +43,7 @@ use Ikarus\Logic\Model\Data\Scene\AttributedSceneDataModel;
 use Ikarus\Logic\Model\Data\Scene\SceneDataModel;
 use Ikarus\Logic\Model\Data\Scene\SceneDataModelInterface;
 use Ikarus\Logic\Model\Exception\InconsistentDataModelException;
+use Ikarus\Logic\Model\Exception\InvalidReferenceException;
 
 class DataModel extends AbstractDataModel
 {
@@ -85,7 +86,7 @@ class DataModel extends AbstractDataModel
     public function connect($inputNode, string $inputName, $outputNode, string $outputName) {
         $inid = $this->nodeSceneMap[$inputNode instanceof NodeDataModelInterface ? $inputNode->getIdentifier() : $inputNode] ?? NULL;
         if(!$inid) {
-            $e = new InconsistentDataModelException("No input node $inputNode found", InconsistentDataModelException::CODE_SYMBOL_NOT_FOUND);
+            $e = new InvalidReferenceException("No input node $inputNode found", InvalidReferenceException::CODE_SYMBOL_NOT_FOUND);
             $e->setModel($this);
             $e->setProperty($inputNode);
             throw $e;
@@ -93,7 +94,7 @@ class DataModel extends AbstractDataModel
 
         $onid = $this->nodeSceneMap[$outputNode instanceof NodeDataModelInterface ? $outputNode->getIdentifier() : $outputNode] ?? NULL;
         if(!$onid) {
-            $e = new InconsistentDataModelException("No output node $outputNode found", InconsistentDataModelException::CODE_SYMBOL_NOT_FOUND);
+            $e = new InvalidReferenceException("No output node $outputNode found", InvalidReferenceException::CODE_SYMBOL_NOT_FOUND);
             $e->setModel($this);
             $e->setProperty($outputNode);
             throw $e;

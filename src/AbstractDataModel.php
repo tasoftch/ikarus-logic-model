@@ -41,7 +41,7 @@ use Ikarus\Logic\Model\Data\IdentifiedDataModelInterface;
 use Ikarus\Logic\Model\Data\Node\NodeDataModelInterface;
 use Ikarus\Logic\Model\Data\Scene\SceneDataModelInterface;
 use Ikarus\Logic\Model\Exception\DuplicateIdentifierException;
-use Ikarus\Logic\Model\Exception\InvalidSceneIdentifierException;
+use Ikarus\Logic\Model\Exception\InvalidReferenceException;
 
 abstract class AbstractDataModel implements DataModelInterface
 {
@@ -139,7 +139,7 @@ abstract class AbstractDataModel implements DataModelInterface
         }
 
         if(!isset($this->sceneDataModels[$scene])) {
-            $e = new InvalidSceneIdentifierException("Scene %s does not exist", InvalidSceneIdentifierException::CODE_SYMBOL_NOT_FOUND, NULL, $scene);
+            $e = new InvalidReferenceException("Scene %s does not exist", InvalidReferenceException::CODE_SYMBOL_NOT_FOUND, NULL, $scene);
             $e->setModel($this);
             $e->setProperty($model);
             throw $e;
@@ -190,7 +190,7 @@ abstract class AbstractDataModel implements DataModelInterface
             $scene = $scene->getIdentifier();
 
         if(!isset($this->sceneDataModels[$scene])) {
-            $e = new InvalidSceneIdentifierException("Scene %s does not exist", InvalidSceneIdentifierException::CODE_SYMBOL_NOT_FOUND, NULL, $scene);
+            $e = new InvalidReferenceException("Scene %s does not exist", InvalidReferenceException::CODE_SYMBOL_NOT_FOUND, NULL, $scene);
             $e->setModel($this);
             $e->setProperty($model);
             throw $e;

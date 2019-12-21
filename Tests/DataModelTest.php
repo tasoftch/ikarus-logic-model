@@ -114,7 +114,7 @@ class DataModelTest extends TestCase
     }
 
     /**
-     * @expectedException \Ikarus\Logic\Model\Exception\InvalidSceneIdentifierException
+     * @expectedException \Ikarus\Logic\Model\Exception\InvalidReferenceException
      */
     public function testAddNodeInconsistent2() {
         $model = new DataModel();
