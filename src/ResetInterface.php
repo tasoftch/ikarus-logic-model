@@ -32,52 +32,17 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Component;
+namespace Ikarus\Logic\Model;
 
-
-use Ikarus\Logic\Model\ResetInterface;
-
-class DynamicNodeComponent extends AbstractNodeComponent implements ResetInterface
+/**
+ * The reset interface marks an instance that is able to reset all its cached information.
+ *
+ * @package Ikarus\Logic\Model
+ */
+interface ResetInterface
 {
-    /** @var string */
-    private $name;
-    /** @var callable */
-    private $socketComponentsCallback;
-
     /**
-     * DynamicNodeComponent constructor.
-     * @param string $name
-     * @param callable $socketComponentsCallback
+     * Resets the instance and asks it to refresh all data
      */
-    public function __construct(string $name, callable $socketComponentsCallback)
-    {
-        $this->name = $name;
-        $this->socketComponentsCallback = $socketComponentsCallback;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Resets the input and output sockets and will ask the callback again for further sockets.
-     */
-    public function reset()
-    {
-        $this->inputSockets = NULL;
-        $this->outputSockets = NULL;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function makeSocketComponents(): array
-    {
-        return call_user_func($this->socketComponentsCallback);
-    }
+    public function reset();
 }

@@ -37,8 +37,9 @@ namespace Ikarus\Logic\Model\Package;
 
 use Ikarus\Logic\Model\Component\NodeComponentInterface;
 use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
+use Ikarus\Logic\Model\ResetInterface;
 
-abstract class AbstractPackage implements PackageInterface
+abstract class AbstractPackage implements PackageInterface, ResetInterface
 {
     /** @var NodeComponentInterface[] */
     protected $components;
@@ -77,6 +78,16 @@ abstract class AbstractPackage implements PackageInterface
                 trigger_error(sprintf("Component of class %s is not supported", get_class($component)), E_USER_WARNING);
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function reset()
+    {
+        $this->components = NULL;
+        $this->socketTypes = NULL;
+    }
+
 
     /**
      * Makes all components
