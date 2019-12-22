@@ -32,20 +32,9 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Component;
+namespace Ikarus\Logic\Model\Component\Socket;
 
-/**
- * Node components implementing this interface can expose sockets.
- * An exposed socket is reachable from outside of a scene.
- *
- * @package Ikarus\Logic\Model\Component
- */
-interface ExposedSocketsComponentInterface extends NodeComponentInterface
+
+class ExposedOutputComponent extends OutputComponent implements ExposedSocketComponentInterface
 {
-    /**
-     *  Gets all socket names (inputs and outputs) that should be marked as exposed.
-     *
-     * @return array
-     */
-    public function getExposedSocketNames(): array;
 }

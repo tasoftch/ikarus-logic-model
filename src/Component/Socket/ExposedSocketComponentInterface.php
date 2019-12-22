@@ -32,40 +32,14 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Component;
+namespace Ikarus\Logic\Model\Component\Socket;
 
-
-class StaticNodeComponent extends AbstractNodeComponent
+/**
+ * An exposed socket is visible and accessible from outside of a scene.
+ * If the scene is on top level, its accessible from outside of a project.
+ *
+ * @package Ikarus\Logic\Model\Component\Socket
+ */
+interface ExposedSocketComponentInterface extends SocketComponentInterface
 {
-    /** @var string */
-    private $name;
-    private $socketComponents;
-
-    /**
-     * StaticNodeComponent constructor.
-     * @param string $name
-     * @param array $socketComponents
-     */
-    public function __construct(string $name, array $socketComponents = [])
-    {
-        $this->name = $name;
-        $this->socketComponents = $socketComponents;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function makeSocketComponents(): array
-    {
-        return $this->socketComponents;
-    }
 }
