@@ -58,12 +58,13 @@ class BasicTypesPackage extends AbstractPackage
             ->combineWithType($bool)
         ;
 
-        $number->combineWithType($string);
+        $number->combineWithType($bool);
 
         $string
             ->combineWithType($number)
             ->combineWithType($bool)
         ;
+        $bool->combineWithType($number);
 
         return [
             new Type(static::TYPE_SIGNAL),

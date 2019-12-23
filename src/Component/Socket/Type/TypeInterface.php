@@ -53,7 +53,7 @@ interface TypeInterface extends ComponentInterface
      *
      * Only connections between equal input and output types are accepted.
      * But all combined type are allowed from output to input.
-     * So if the output has this type, an input may have this or all combined types.
+     * So if the input has this type, if accepts values of the same type or combined types with this type
      *
      * @return TypeInterface[]
      */

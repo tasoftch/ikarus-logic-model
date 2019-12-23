@@ -42,6 +42,7 @@
 namespace Ikarus\Logic\Model\Test;
 
 use Ikarus\Logic\Model\Component\Socket\Type\Type;
+use Ikarus\Logic\Model\Package\BasicTypesPackage;
 use PHPUnit\Framework\TestCase;
 
 class TypesTest extends TestCase
@@ -71,5 +72,34 @@ class TypesTest extends TestCase
         $this->assertTrue( $any->accepts( $any ) );
 
         $this->assertFalse( $any->accepts( $number ) );
+    }
+
+    public function testBasicPackageTypes() {
+        $types = (new BasicTypesPackage())->getSocketTypes();
+        $any = $types["Any"];
+        $string = $types["String"];
+        $number = $types["Number"];
+        $boolean = $types["Boolean"];
+
+        // Input is $ and ->accepts( ?? )
+        $this->assertTrue( $any->accepts($string) );
+        $this->assertTrue( $any->accepts($number) );
+        $this->assertTrue( $any->accepts($boolean) );
+        $this->assertTrue( $any->accepts($any) );
+
+        $this->assertTrue( $string->accepts($string) );
+        $this->assertTrue( $string->accepts($number) );
+        $this->assertTrue( $string->accepts($boolean) );
+        $this->assertFalse( $string->accepts($any) );
+
+        $this->assertFalse( $number->accepts($string) );
+        $this->assertTrue( $number->accepts($number) );
+        $this->assertTrue( $number->accepts($boolean) );
+        $this->assertFalse( $number->accepts($any) );
+
+        $this->assertFalse( $boolean->accepts($string) );
+        $this->assertTrue( $boolean->accepts($number) );
+        $this->assertTrue( $boolean->accepts($boolean) );
+        $this->assertFalse( $boolean->accepts($any) );
     }
 }
