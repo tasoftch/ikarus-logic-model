@@ -80,6 +80,8 @@ class TypesTest extends TestCase
         $string = $types["String"];
         $number = $types["Number"];
         $boolean = $types["Boolean"];
+        $signal = $types["Signal"];
+
 
         // Input is $ and ->accepts( ?? )
         $this->assertTrue( $any->accepts($string) );
@@ -101,5 +103,11 @@ class TypesTest extends TestCase
         $this->assertTrue( $boolean->accepts($number) );
         $this->assertTrue( $boolean->accepts($boolean) );
         $this->assertFalse( $boolean->accepts($any) );
+
+        $this->assertTrue( $signal->accepts($signal) );
+        $this->assertFalse( $signal->accepts($string) );
+        $this->assertFalse( $signal->accepts($number) );
+        $this->assertFalse( $signal->accepts($boolean) );
+        $this->assertFalse( $signal->accepts($any) );
     }
 }
