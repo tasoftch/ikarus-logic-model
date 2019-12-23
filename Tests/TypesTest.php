@@ -88,21 +88,25 @@ class TypesTest extends TestCase
         $this->assertTrue( $any->accepts($number) );
         $this->assertTrue( $any->accepts($boolean) );
         $this->assertTrue( $any->accepts($any) );
+        $this->assertFalse( $any->accepts($signal) );
 
         $this->assertTrue( $string->accepts($string) );
         $this->assertTrue( $string->accepts($number) );
         $this->assertTrue( $string->accepts($boolean) );
         $this->assertFalse( $string->accepts($any) );
+        $this->assertFalse( $string->accepts($signal) );
 
         $this->assertFalse( $number->accepts($string) );
         $this->assertTrue( $number->accepts($number) );
         $this->assertTrue( $number->accepts($boolean) );
         $this->assertFalse( $number->accepts($any) );
+        $this->assertFalse( $number->accepts($signal) );
 
         $this->assertFalse( $boolean->accepts($string) );
         $this->assertTrue( $boolean->accepts($number) );
         $this->assertTrue( $boolean->accepts($boolean) );
         $this->assertFalse( $boolean->accepts($any) );
+        $this->assertFalse( $boolean->accepts($signal) );
 
         $this->assertTrue( $signal->accepts($signal) );
         $this->assertFalse( $signal->accepts($string) );
