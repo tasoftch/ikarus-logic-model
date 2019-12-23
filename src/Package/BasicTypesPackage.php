@@ -34,6 +34,7 @@
 
 namespace Ikarus\Logic\Model\Package;
 
+use Ikarus\Logic\Model\Component\Socket\Type\Signal;
 use Ikarus\Logic\Model\Component\Socket\Type\Type;
 
 class BasicTypesPackage extends AbstractPackage
@@ -67,7 +68,7 @@ class BasicTypesPackage extends AbstractPackage
         $bool->combineWithType($number);
 
         return [
-            new Type(static::TYPE_SIGNAL),
+            new Signal(static::TYPE_SIGNAL),
             $any,
             $string,
             $number,
