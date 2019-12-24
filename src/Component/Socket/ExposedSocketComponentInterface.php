@@ -35,8 +35,21 @@
 namespace Ikarus\Logic\Model\Component\Socket;
 
 /**
- * An exposed socket is visible and accessible from outside of a scene.
- * If the scene is on top level, its accessible from outside of a project.
+ * An exposed socket is visible and accessible from parent context on runtime.
+ * Two cases are possible:
+ *
+ * The exposed socket is an input:
+ *      1.  If the input is connected, the value is fetched from the connected output
+ *      2.  If the node specifies a custom value, its used.
+ *   -> 3.  If a value provider has data available for this exposed socket, its used
+ *      4.  If the component specifies a default value, its used.
+ *      5.  NULL assumed
+ *
+ * The exposed socket is an output:
+ *      1.  The node gets updated
+ *      2.  If after that still no output value is available, ask a value provider for this exposed socket
+ *      3.  Use component default if specified
+ *      4.  Use NULL
  *
  * @package Ikarus\Logic\Model\Component\Socket
  */

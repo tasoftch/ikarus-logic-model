@@ -43,6 +43,9 @@ abstract class AbstractSocketComponent implements SocketComponentInterface
     /** @var bool */
     protected $allowsMultiple;
 
+    protected $defaultValue;
+    private $hasDefaultValue = false;
+
     /**
      * @return string
      */
@@ -65,5 +68,32 @@ abstract class AbstractSocketComponent implements SocketComponentInterface
     public function getName(): string
     {
         return $this->socketName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultValue()
+    {
+        return $this->defaultValue;
+    }
+
+    /**
+     * @param mixed $defaultValue
+     * @return static
+     */
+    public function setDefaultValue($defaultValue)
+    {
+        $this->defaultValue = $defaultValue;
+        $this->hasDefaultValue = true;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDefaultValue(): bool
+    {
+        return $this->hasDefaultValue;
     }
 }
