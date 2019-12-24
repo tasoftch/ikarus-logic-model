@@ -58,4 +58,12 @@ interface ValuesServerInterface
      * @param $value
      */
     public function pushOutputValue(string $outputSocketName, $value);
+
+    /**
+     * Exposing a value makes it available to parent scope.
+     *
+     * @param string $socketName
+     * @param $value
+     */
+    public function exposeValue(string $socketName, $value);
 }
