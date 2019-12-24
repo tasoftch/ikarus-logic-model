@@ -37,7 +37,7 @@ namespace Ikarus\Logic\Model\Component;
 
 use Ikarus\Logic\Model\ResetInterface;
 
-class CallbackNodeComponent extends AbstractNodeComponent implements ResetInterface
+class DynamicSocketsNodeComponent extends AbstractNodeComponent implements ResetInterface
 {
     /** @var string */
     private $name;
