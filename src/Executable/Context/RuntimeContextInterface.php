@@ -57,7 +57,21 @@ interface RuntimeContextInterface
      */
     public function getNodeAttributes(): ?array;
 
+    /**
+     * Gets the output socket name that is requested in the current cycle.
+     * This method return NULL, if a signal trigger came in to this node.
+     *
+     * @return string|null
+     */
+    public function getRequestedOutputSocketName(): ?string;
 
+    /**
+     * Gets the exposed output socket name that was triggered by the parent scope.
+     * The socket name is only returned if a signal was triggered on this socket, otherwise its always NULL.
+     *
+     * @return string|null
+     */
+    public function getTriggeredSocketName(): ?string;
 
 
     // Increase runtime performance
