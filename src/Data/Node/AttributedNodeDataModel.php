@@ -39,6 +39,8 @@ use Ikarus\Logic\Model\Data\AttributedDataModelInterface;
 
 class AttributedNodeDataModel extends NodeDataModel implements AttributedDataModelInterface
 {
+    const ATTRIBUTE_CUSTOM_INPUT_VALUES = 'custom-inputs';
+
     private $attributes = [];
 
     public function __construct($identifier, string $componentName, array $attributes = NULL)
