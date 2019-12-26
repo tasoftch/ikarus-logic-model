@@ -61,6 +61,7 @@ class PriorityComponentModel extends AbstractComponentModel
      *
      * @param NodeComponentInterface $component
      * @param int $priority
+     * @return static
      */
     public function addComponent(NodeComponentInterface $component, int $priority = 0) {
         if(isset($this->nameDuplicateProtection[$component->getName()])) {
@@ -70,6 +71,7 @@ class PriorityComponentModel extends AbstractComponentModel
         }
         $this->components->add($priority, $component);
         $this->nameDuplicateProtection[ $component->getName() ] = $component;
+        return $this;
     }
 
     /**
@@ -94,6 +96,7 @@ class PriorityComponentModel extends AbstractComponentModel
      *
      * @param TypeInterface $socketType
      * @param int $priority
+     * @return static
      */
     public function addSocketType(TypeInterface $socketType, int $priority = 0) {
         if(isset($this->nameDuplicateProtection[$socketType->getName()])) {
@@ -103,6 +106,7 @@ class PriorityComponentModel extends AbstractComponentModel
         }
         $this->socketTypes->add($priority, $socketType);
         $this->nameDuplicateProtection[ $socketType->getName() ] = $socketType;
+        return $this;
     }
 
     /**
@@ -126,12 +130,14 @@ class PriorityComponentModel extends AbstractComponentModel
      *
      * @param PackageInterface $package
      * @param int $priority
+     * @return static
      */
     public function addPackage(PackageInterface $package, int $priority = 0) {
         foreach($package->getComponents() as $component)
             $this->addComponent($component, $priority);
         foreach($package->getSocketTypes() as $socketType)
             $this->addSocketType($socketType, $priority);
+        return $this;
     }
 
     /**
