@@ -50,8 +50,8 @@ interface ExecutableExpressionNodeComponentInterface extends NodeComponentInterf
     /**
      * This method gets called by the render engine of Ikarus Logic to update a node referencing this component.
      *
-     * @param RuntimeContextInterface $context
      * @param ValuesServerInterface $valuesServer
+     * @param RuntimeContextInterface $context
      */
-    public function updateNode(RuntimeContextInterface $context, ValuesServerInterface $valuesServer);
+    public function updateNode(ValuesServerInterface $valuesServer, RuntimeContextInterface $context);
 }

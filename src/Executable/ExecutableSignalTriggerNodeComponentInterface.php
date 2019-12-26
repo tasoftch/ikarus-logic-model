@@ -48,8 +48,8 @@ interface ExecutableSignalTriggerNodeComponentInterface extends NodeComponentInt
 {
     /**
      * @param string $onInputSocketName
-     * @param RuntimeContextInterface $context
      * @param SignalServerInterface $signalServer
+     * @param RuntimeContextInterface $context
      */
-    public function handleSignalTrigger(string $onInputSocketName, RuntimeContextInterface $context, SignalServerInterface $signalServer);
+    public function handleSignalTrigger(string $onInputSocketName, SignalServerInterface $signalServer, RuntimeContextInterface $context);
 }

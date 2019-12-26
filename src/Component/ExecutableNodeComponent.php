@@ -84,17 +84,17 @@ class ExecutableNodeComponent extends NodeComponent implements ExecutableExpress
         return $this->updateHandler;
     }
 
-    public function updateNode(RuntimeContextInterface $context, ValuesServerInterface $valuesServer)
+    public function updateNode(ValuesServerInterface $valuesServer, RuntimeContextInterface $context)
     {
         if(is_callable( $cb = $this->getUpdateHandler() )) {
-            call_user_func( $cb, $context, $valuesServer );
+            call_user_func( $cb, $valuesServer, $context );
         }
     }
 
-    public function handleSignalTrigger(string $onInputSocketName, RuntimeContextInterface $context, SignalServerInterface $signalServer)
+    public function handleSignalTrigger(string $onInputSocketName, SignalServerInterface $signalServer, RuntimeContextInterface $context)
     {
         if(is_callable( $cb = $this->getSignalHandler() )) {
-            call_user_func( $cb, $onInputSocketName, $context, $signalServer );
+            call_user_func( $cb, $onInputSocketName, $signalServer, $context );
         }
     }
 }
