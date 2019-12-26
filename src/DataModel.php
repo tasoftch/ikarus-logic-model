@@ -52,12 +52,14 @@ class DataModel extends AbstractDataModel
      *
      * @param $identifier
      * @param array|NULL $attributes
+     * @return static
      */
     public function addScene($identifier, array $attributes = NULL) {
         if($attributes)
             $this->addSceneDataModel( new AttributedSceneDataModel($identifier, $attributes) );
         else
             $this->addSceneDataModel( new SceneDataModel($identifier) );
+        return $this;
     }
 
     /**
@@ -67,12 +69,14 @@ class DataModel extends AbstractDataModel
      * @param string $componentName
      * @param string|int|SceneDataModelInterface $scene
      * @param array|NULL $attributes
+     * @return static
      */
     public function addNode($identifier, string $componentName, $scene, array $attributes = NULL) {
         if($attributes)
             $this->addNodeModel( new AttributedNodeDataModel($identifier, $componentName, $attributes), $scene );
         else
             $this->addNodeModel( new NodeDataModel($identifier, $componentName), $scene );
+        return $this;
     }
 
     /**
@@ -82,6 +86,7 @@ class DataModel extends AbstractDataModel
      * @param string $inputName
      * @param $outputNode
      * @param string $outputName
+     * @return static
      */
     public function connect($inputNode, string $inputName, $outputNode, string $outputName) {
         $inid = $this->nodeSceneMap[$inputNode instanceof NodeDataModelInterface ? $inputNode->getIdentifier() : $inputNode] ?? NULL;
@@ -113,5 +118,6 @@ class DataModel extends AbstractDataModel
             $outputNode instanceof NodeDataModelInterface ? $outputNode->getIdentifier() : $outputNode,
             $outputName
         ), $onid );
+        return $this;
     }
 }
