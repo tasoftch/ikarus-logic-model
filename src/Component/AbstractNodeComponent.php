@@ -85,12 +85,32 @@ abstract class AbstractNodeComponent implements NodeComponentInterface
                 }
                 $this->outputSockets[ $socket->getName() ] = $socket;
                 $list[] = $socket->getName();
+            } elseif($socket instanceof ComponentInterface) {
+                if(in_array($socket->getName(), $list)) {
+                    $e = new DuplicateNameException("Component %s already exists", DuplicateNameException::CODE_DUPLICATE_SYMBOL, NULL, $socket->getName());
+                    $e->setProperty($socket);
+                    throw $e;
+                }
+
+                if($this->resolveComponent($socket))
+                    $list[] = $socket->getName();
             } else {
-                $e = new InconsistentComponentModelException("Object in socket list is not a socket component", InconsistentComponentModelException::CODE_INVALID_INSTANCE);
+                $e = new InconsistentComponentModelException("Object in socket list is not a component", InconsistentComponentModelException::CODE_INVALID_INSTANCE);
                 $e->setProperty($socket);
                 throw $e;
             }
         }
+    }
+
+    /**
+     * Asking subclasses to resolve component.
+     * If this method returns true, the component's name is cached for consistency reasons.
+     *
+     * @param ComponentInterface $component
+     * @return bool
+     */
+    protected function resolveComponent(ComponentInterface $component): bool {
+        return false;
     }
 
     /**
