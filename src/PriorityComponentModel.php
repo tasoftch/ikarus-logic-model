@@ -35,6 +35,7 @@
 namespace Ikarus\Logic\Model;
 
 
+use Ikarus\Logic\Model\Component\ComponentInterface;
 use Ikarus\Logic\Model\Component\NodeComponentInterface;
 use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
 use Ikarus\Logic\Model\Exception\ComponentNotFoundException;
@@ -59,11 +60,11 @@ class PriorityComponentModel extends AbstractComponentModel
     /**
      * Adds a component to the model
      *
-     * @param NodeComponentInterface $component
+     * @param NodeComponentInterface|ComponentInterface $component
      * @param int $priority
      * @return static
      */
-    public function addComponent(NodeComponentInterface $component, int $priority = 0) {
+    public function addComponent(ComponentInterface $component, int $priority = 0) {
         if(isset($this->nameDuplicateProtection[$component->getName()])) {
             $e = new InconsistentDataModelException("Component with name %s already exists", 88, NULL, $component->getName());
             $e->setProperty($component);
