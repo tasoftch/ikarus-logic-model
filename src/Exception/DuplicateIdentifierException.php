@@ -37,4 +37,21 @@ namespace Ikarus\Logic\Model\Exception;
 
 class DuplicateIdentifierException extends InconsistentDataModelException
 {
+    private $duplicate;
+
+    /**
+     * @return mixed
+     */
+    public function getDuplicate()
+    {
+        return $this->duplicate;
+    }
+
+    /**
+     * @param mixed $duplicate
+     */
+    public function setDuplicate($duplicate): void
+    {
+        $this->duplicate = $duplicate;
+    }
 }

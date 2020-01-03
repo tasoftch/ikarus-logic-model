@@ -84,10 +84,11 @@ abstract class AbstractDataModel implements DataModelInterface
      * @param SceneDataModelInterface $model
      */
     public function addSceneDataModel(SceneDataModelInterface $model) {
-        if($this->hasIdentifier($model->getIdentifier() )) {
+        if($existingModel = $this->getDataModelByIdentifier($model->getIdentifier())) {
             $e = new DuplicateIdentifierException("Scene with id %s already exists", DuplicateIdentifierException::CODE_DUPLICATE_SYMBOL, NULL, $model->getIdentifier());
             $e->setModel($this);
-            $e->setProperty($model);
+            $e->setProperty( $existingModel );
+            $e->setDuplicate( $model );
             throw $e;
         }
         $this->sceneDataModels[ $model->getIdentifier() ] = $model;
@@ -131,10 +132,11 @@ abstract class AbstractDataModel implements DataModelInterface
         if($scene instanceof SceneDataModelInterface)
             $scene = $scene->getIdentifier();
 
-        if($this->hasIdentifier($model->getIdentifier() )) {
+        if($existingModel = $this->getDataModelByIdentifier( $model->getIdentifier() )) {
             $e = new DuplicateIdentifierException("Node with id %s already exists", DuplicateIdentifierException::CODE_DUPLICATE_SYMBOL, NULL, $model->getIdentifier());
             $e->setModel($this);
             $e->setProperty($model);
+            $e->setDuplicate($existingModel);
             throw $e;
         }
 
