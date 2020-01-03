@@ -35,19 +35,19 @@
 namespace Ikarus\Logic\Model\Package;
 
 
-use Ikarus\Logic\Model\Component\NodeComponentInterface;
+use Ikarus\Logic\Model\Component\ComponentInterface;
 use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
 use Ikarus\Logic\Model\ResetInterface;
 
 abstract class AbstractPackage implements PackageInterface, ResetInterface
 {
-    /** @var NodeComponentInterface[] */
+    /** @var ComponentInterface[] */
     protected $components;
     /** @var TypeInterface[] */
     protected $socketTypes;
 
     /**
-     * @return NodeComponentInterface[]
+     * @return ComponentInterface[]
      */
     public function getComponents(): array
     {
@@ -72,7 +72,7 @@ abstract class AbstractPackage implements PackageInterface, ResetInterface
         foreach($this->makeComponents() as $component) {
             if($component instanceof TypeInterface)
                 $this->socketTypes[ $component->getName() ] = $component;
-            elseif($component instanceof NodeComponentInterface)
+            elseif($component instanceof ComponentInterface)
                 $this->components[ $component->getName() ] = $component;
             else
                 trigger_error(sprintf("Component of class %s is not supported", get_class($component)), E_USER_WARNING);
@@ -92,7 +92,7 @@ abstract class AbstractPackage implements PackageInterface, ResetInterface
     /**
      * Makes all components
      *
-     * @return TypeInterface[]|NodeComponentInterface[]
+     * @return TypeInterface[]|ComponentInterface[]
      */
     abstract protected function makeComponents(): array;
 }
