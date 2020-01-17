@@ -138,8 +138,8 @@ class DataModelTest extends TestCase
         /** @var GatewayDataModelInterface $gateway */
         $gateway = $gateways["node"];
 
-        $this->assertEquals('scene', $gateway->getDestinationScene());
-        $this->assertEquals('node', $gateway->getSourceNode());
+        $this->assertEquals('scene', $gateway->getDestinationScene()->getIdentifier());
+        $this->assertEquals('node', $gateway->getSourceNode()->getIdentifier());
         $this->assertEquals([], $gateway->getSocketMap());
     }
 

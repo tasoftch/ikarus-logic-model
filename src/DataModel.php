@@ -152,8 +152,8 @@ class DataModel extends AbstractDataModel
         }
 
         $this->addGatewayModel(new GatewayDataModel(
-            $destinationScene,
-            $sourceNode,
+            $this->getDataModelByIdentifier( $destinationScene ),
+            $this->getDataModelByIdentifier( $sourceNode ),
             $socketMap
         ));
 

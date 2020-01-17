@@ -43,18 +43,18 @@ interface GatewayDataModelInterface
      * Gets the destination scene, where the gateway should be linked.
      * Returning a string must be the identifier of the scene.
      *
-     * @return string|SceneDataModelInterface
+     * @return SceneDataModelInterface
      */
-    public function getDestinationScene();
+    public function getDestinationScene(): SceneDataModelInterface;
 
     /**
      * Gets the node from where the gateway should be linked
      * Returning a string must be the identifier of the node.
      * Please note that the source node must reference Ikarus component GATEWAY defined in ikarus/logic-engine
      *
-     * @return string|NodeDataModelInterface
+     * @return NodeDataModelInterface
      */
-    public function getSourceNode();
+    public function getSourceNode(): NodeDataModelInterface;
 
     /**
      * Return the socket map which means which sockets are linked to each other.

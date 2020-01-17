@@ -39,20 +39,20 @@ use Ikarus\Logic\Model\Data\Node\NodeDataModelInterface;
 
 class GatewayDataModel implements GatewayDataModelInterface
 {
-    /** @var string|SceneDataModelInterface */
+    /** @var SceneDataModelInterface */
     private $destinationScene;
-    /** @var string|NodeDataModelInterface */
+    /** @var NodeDataModelInterface */
     private $sourceNode;
     /** @var array */
     private $socketMap;
 
     /**
      * GatewayDataModel constructor.
-     * @param SceneDataModelInterface|string $destinationScene
-     * @param NodeDataModelInterface|string $sourceNode
+     * @param SceneDataModelInterface $destinationScene
+     * @param NodeDataModelInterface $sourceNode
      * @param array $socketMap
      */
-    public function __construct($destinationScene, $sourceNode, array $socketMap)
+    public function __construct(SceneDataModelInterface $destinationScene, NodeDataModelInterface $sourceNode, array $socketMap)
     {
         $this->destinationScene = $destinationScene;
         $this->sourceNode = $sourceNode;
@@ -60,17 +60,17 @@ class GatewayDataModel implements GatewayDataModelInterface
     }
 
     /**
-     * @return SceneDataModelInterface|string
+     * @return SceneDataModelInterface
      */
-    public function getDestinationScene()
+    public function getDestinationScene(): SceneDataModelInterface
     {
         return $this->destinationScene;
     }
 
     /**
-     * @return NodeDataModelInterface|string
+     * @return NodeDataModelInterface
      */
-    public function getSourceNode()
+    public function getSourceNode(): NodeDataModelInterface
     {
         return $this->sourceNode;
     }

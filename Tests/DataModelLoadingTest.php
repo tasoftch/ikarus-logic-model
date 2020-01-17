@@ -407,8 +407,8 @@ class DataModelLoadingTest extends TestCase
 
         $gateway = $model->getGatewaysToScene('myScene')[ "myNode" ];
 
-        $this->assertEquals("myScene", $gateway->getDestinationScene());
-        $this->assertEquals('myNode', $gateway->getSourceNode());
+        $this->assertEquals("myScene", $gateway->getDestinationScene()->getIdentifier());
+        $this->assertEquals('myNode', $gateway->getSourceNode()->getIdentifier());
         $this->assertEquals([
             'myNode:input' => 'superNode:output'
         ], $gateway->getSocketMap());
