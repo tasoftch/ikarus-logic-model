@@ -43,6 +43,7 @@ namespace Ikarus\Logic\Model\Test;
 
 use Ikarus\Logic\Model\Data\Node\AttributedNodeDataModel;
 use Ikarus\Logic\Model\Data\Scene\AttributedSceneDataModel;
+use Ikarus\Logic\Model\Data\Scene\GatewayDataModelInterface;
 use Ikarus\Logic\Model\Data\Scene\SceneDataModel;
 use Ikarus\Logic\Model\Data\Scene\SceneDataModelInterface;
 use Ikarus\Logic\Model\DataModel;
@@ -121,5 +122,24 @@ class DataModelTest extends TestCase
 
         $model->addScene("myID");
         $model->addNode("theID", 'ONE_INPUT', 'whereID');
+    }
+
+    public function testAddGateway() {
+        $model = new DataModel();
+
+        $model->addScene("scene");
+        $model->addNode("node", 'test', 'scene');
+
+        $model->pair("scene", 'node', []);
+
+        $this->assertCount(1, $gateways = $model->getGatewaysToScene('scene'));
+        $this->assertArrayHasKey('node', $gateways);
+
+        /** @var GatewayDataModelInterface $gateway */
+        $gateway = $gateways["node"];
+
+        $this->assertEquals('scene', $gateway->getDestinationScene());
+        $this->assertEquals('node', $gateway->getSourceNode());
+        $this->assertEquals([], $gateway->getSocketMap());
     }
 }

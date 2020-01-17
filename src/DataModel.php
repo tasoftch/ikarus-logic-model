@@ -40,6 +40,7 @@ use Ikarus\Logic\Model\Data\Node\AttributedNodeDataModel;
 use Ikarus\Logic\Model\Data\Node\NodeDataModel;
 use Ikarus\Logic\Model\Data\Node\NodeDataModelInterface;
 use Ikarus\Logic\Model\Data\Scene\AttributedSceneDataModel;
+use Ikarus\Logic\Model\Data\Scene\GatewayDataModel;
 use Ikarus\Logic\Model\Data\Scene\SceneDataModel;
 use Ikarus\Logic\Model\Data\Scene\SceneDataModelInterface;
 use Ikarus\Logic\Model\Exception\InconsistentDataModelException;
@@ -118,6 +119,44 @@ class DataModel extends AbstractDataModel
             $outputNode instanceof NodeDataModelInterface ? $outputNode->getIdentifier() : $outputNode,
             $outputName
         ), $onid );
+        return $this;
+    }
+
+    /**
+     * This method pairs a scene with a node using the built-in gateway structure.
+     *
+     * @param string|SceneDataModelInterface $destinationScene
+     * @param string|NodeDataModelInterface $sourceNode
+     * @param array $socketMap
+     * @return static
+     */
+    public function pair($destinationScene, $sourceNode, array $socketMap) {
+        if($destinationScene instanceof SceneDataModelInterface)
+            $destinationScene = $destinationScene->getIdentifier();
+
+        if(!$this->hasIdentifier( $destinationScene )) {
+            $e = new InvalidReferenceException("Destination scene $destinationScene found", InvalidReferenceException::CODE_SYMBOL_NOT_FOUND);
+            $e->setModel($this);
+            $e->setProperty($destinationScene);
+            throw $e;
+        }
+
+        if($sourceNode instanceof NodeDataModelInterface)
+            $sourceNode = $sourceNode->getIdentifier();
+
+        if(!$this->hasIdentifier( $sourceNode )) {
+            $e = new InvalidReferenceException("Destination node $sourceNode found", InvalidReferenceException::CODE_SYMBOL_NOT_FOUND);
+            $e->setModel($this);
+            $e->setProperty($sourceNode);
+            throw $e;
+        }
+
+        $this->addGatewayModel(new GatewayDataModel(
+            $destinationScene,
+            $sourceNode,
+            $socketMap
+        ));
+
         return $this;
     }
 }
