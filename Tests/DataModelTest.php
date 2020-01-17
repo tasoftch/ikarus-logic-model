@@ -142,4 +142,17 @@ class DataModelTest extends TestCase
         $this->assertEquals('node', $gateway->getSourceNode());
         $this->assertEquals([], $gateway->getSocketMap());
     }
+
+    /**
+     * @expectedException \Ikarus\Logic\Model\Exception\InvalidReferenceException
+     * @expectedExceptionCode 99
+     */
+    public function testInexistentGatewayScene() {
+        $model = new DataModel();
+
+        $model->addScene("scene");
+        $model->addNode("node", 'test', 'scene');
+
+        $model->pair("inexistent-scene", 'node', []);
+    }
 }
