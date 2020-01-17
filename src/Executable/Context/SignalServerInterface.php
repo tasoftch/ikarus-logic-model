@@ -49,4 +49,11 @@ interface SignalServerInterface extends ValuesServerInterface
      * @param string $outputSocketName
      */
     public function forwardSignal(string $outputSocketName);
+
+    /**
+     * Exposes a signal to the parent context.
+     *
+     * @param string $inputSocketName
+     */
+    public function exposeSignal(string $inputSocketName);
 }

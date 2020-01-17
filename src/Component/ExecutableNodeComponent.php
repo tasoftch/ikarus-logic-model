@@ -35,6 +35,7 @@
 namespace Ikarus\Logic\Model\Component;
 
 
+use Ikarus\Logic\Model\Component\Socket\ExposedSocketComponentInterface;
 use Ikarus\Logic\Model\Executable\Context\RuntimeContextInterface;
 use Ikarus\Logic\Model\Executable\Context\SignalServerInterface;
 use Ikarus\Logic\Model\Executable\Context\ValuesServerInterface;
@@ -88,6 +89,14 @@ class ExecutableNodeComponent extends NodeComponent implements ExecutableExpress
     {
         if(is_callable( $cb = $this->getUpdateHandler() )) {
             call_user_func( $cb, $valuesServer, $context );
+        } else {
+            $socketName = $context->getRequestedOutputSocketName();
+            if(($this->getInputSockets()[$socketName] ?? NULL) instanceof ExposedSocketComponentInterface) {
+                $value = $valuesServer->fetchInputValue($socketName);
+                if(NULL !== $value) {
+                    $valuesServer->exposeValue($socketName, $value);
+                }
+            }
         }
     }
 
@@ -95,6 +104,10 @@ class ExecutableNodeComponent extends NodeComponent implements ExecutableExpress
     {
         if(is_callable( $cb = $this->getSignalHandler() )) {
             call_user_func( $cb, $onInputSocketName, $signalServer, $context );
+        } else {
+            if($this->getInputSockets()[$onInputSocketName] instanceof ExposedSocketComponentInterface) {
+                $signalServer->exposeSignal($onInputSocketName);
+            }
         }
     }
 }
