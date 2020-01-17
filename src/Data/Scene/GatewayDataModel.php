@@ -2,7 +2,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (c) 2019, TASoft Applications
+ * Copyright (c) 2020, TASoft Applications
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,49 +32,54 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Data;
+namespace Ikarus\Logic\Model\Data\Scene;
 
-use Ikarus\Logic\Model\Data\Connection\ConnectionDataModelInterface;
+
 use Ikarus\Logic\Model\Data\Node\NodeDataModelInterface;
-use Ikarus\Logic\Model\Data\Scene\GatewayDataModelInterface;
-use Ikarus\Logic\Model\Data\Scene\SceneDataModelInterface;
 
-/**
- * The data model knows the workflow and describe it, for example to a compiler.
- *
- * @package Ikarus\Logic\Model
- */
-interface DataModelInterface
+class GatewayDataModel implements GatewayDataModelInterface
 {
-    /**
-     * Gets all scene data models
-     *
-     * @return SceneDataModelInterface[]
-     */
-    public function getSceneDataModels(): array;
+    /** @var string|SceneDataModelInterface */
+    private $destinationScene;
+    /** @var string|NodeDataModelInterface */
+    private $sourceNode;
+    /** @var array */
+    private $socketMap;
 
     /**
-     * Gets the nodes of a scene
-     *
-     * @param SceneDataModelInterface|string $scene
-     * @return NodeDataModelInterface[]
+     * GatewayDataModel constructor.
+     * @param SceneDataModelInterface|string $destinationScene
+     * @param NodeDataModelInterface|string $sourceNode
+     * @param array $socketMap
      */
-    public function getNodesInScene($scene): array;
+    public function __construct($destinationScene, $sourceNode, array $socketMap)
+    {
+        $this->destinationScene = $destinationScene;
+        $this->sourceNode = $sourceNode;
+        $this->socketMap = $socketMap;
+    }
 
     /**
-     * Gets all connections inside a scene
-     * NOTE: Connected nodes must be in the same scene.
-     *
-     * @param SceneDataModelInterface|string $scene
-     * @return ConnectionDataModelInterface[]
+     * @return SceneDataModelInterface|string
      */
-    public function getConnectionsInScene($scene): array;
+    public function getDestinationScene()
+    {
+        return $this->destinationScene;
+    }
 
     /**
-     * Gets all gateways to a given scene
-     *
-     * @param SceneDataModelInterface]string $scene
-     * @return GatewayDataModelInterface[]|null
+     * @return NodeDataModelInterface|string
      */
-    public function getGatewaysToScene($scene): ?array;
+    public function getSourceNode()
+    {
+        return $this->sourceNode;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSocketMap(): array
+    {
+        return $this->socketMap;
+    }
 }

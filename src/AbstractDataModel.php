@@ -39,6 +39,7 @@ use Ikarus\Logic\Model\Data\Connection\ConnectionDataModelInterface;
 use Ikarus\Logic\Model\Data\DataModelInterface;
 use Ikarus\Logic\Model\Data\IdentifiedDataModelInterface;
 use Ikarus\Logic\Model\Data\Node\NodeDataModelInterface;
+use Ikarus\Logic\Model\Data\Scene\GatewayDataModelInterface;
 use Ikarus\Logic\Model\Data\Scene\SceneDataModelInterface;
 use Ikarus\Logic\Model\Exception\DuplicateIdentifierException;
 use Ikarus\Logic\Model\Exception\InvalidReferenceException;
@@ -59,6 +60,9 @@ abstract class AbstractDataModel implements DataModelInterface
 
     /** @var array  */
     private $idRegister = [];
+
+    /** @var GatewayDataModelInterface[][] */
+    private $gateways = [];
 
     /**
      * Checks, if an object with a given identifier already exists
@@ -220,5 +224,73 @@ abstract class AbstractDataModel implements DataModelInterface
     public function getConnectionsInScene($scene): array
     {
         return $this->connections[$scene instanceof IdentifiedDataModelInterface ? $scene->getIdentifier() : $scene] ?? [];
+    }
+
+    /**
+     * Adds a gateway to the model
+     *
+     * @param GatewayDataModelInterface $gatewayDataModel
+     */
+    public function addGatewayModel(GatewayDataModelInterface $gatewayDataModel) {
+        $scene = $gatewayDataModel->getDestinationScene();
+        if($scene instanceof SceneDataModelInterface)
+            $scene = $scene->getIdentifier();
+
+        if(!isset($this->sceneDataModels[$scene])) {
+            $e = new InvalidReferenceException("Scene %s does not exist", InvalidReferenceException::CODE_SYMBOL_NOT_FOUND, NULL, $scene);
+            $e->setModel($this);
+            $e->setProperty($gatewayDataModel);
+            throw $e;
+        }
+
+        $node = $gatewayDataModel->getSourceNode();
+        if($node instanceof NodeDataModelInterface)
+            $node = $node->getIdentifier();
+
+        if(!isset($this->idRegister[$node])) {
+            $e = new InvalidReferenceException("Node %s does not exist", InvalidReferenceException::CODE_SYMBOL_NOT_FOUND, NULL, $node);
+            $e->setModel($this);
+            $e->setProperty( $gatewayDataModel->getSourceNode() );
+            throw $e;
+        }
+
+        $this->gateways[$scene][$node] = $gatewayDataModel;
+    }
+
+    /**
+     * Removes a specific gateway data model from the model
+     *
+     * @param GatewayDataModelInterface $gatewayDataModel
+     */
+    public function removeGatewayModel(GatewayDataModelInterface $gatewayDataModel) {
+        foreach($this->gateways as &$gateways) {
+            $gateways = array_filter($gateways, function(ConnectionDataModelInterface $c) use ($gatewayDataModel) {
+                return $gatewayDataModel !== $c;
+            });
+        }
+    }
+
+    /**
+     * Removes all gateways to a scene
+     *
+     * @param $scene
+     */
+    public function removeGatewayModelsFromScene($scene) {
+        if($scene instanceof SceneDataModelInterface)
+            $scene = $scene->getIdentifier();
+
+        if(isset($this->gateways[$scene]))
+            unset($this->gateways[$scene]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getGatewaysToScene($scene): ?array
+    {
+        if($scene instanceof SceneDataModelInterface)
+            $scene = $scene->getIdentifier();
+
+        return $this->gateways[ $scene ] ?? NULL;
     }
 }

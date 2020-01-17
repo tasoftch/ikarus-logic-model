@@ -2,7 +2,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (c) 2019, TASoft Applications
+ * Copyright (c) 2020, TASoft Applications
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,49 +32,39 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Data;
+namespace Ikarus\Logic\Model\Data\Scene;
 
-use Ikarus\Logic\Model\Data\Connection\ConnectionDataModelInterface;
+
 use Ikarus\Logic\Model\Data\Node\NodeDataModelInterface;
-use Ikarus\Logic\Model\Data\Scene\GatewayDataModelInterface;
-use Ikarus\Logic\Model\Data\Scene\SceneDataModelInterface;
 
-/**
- * The data model knows the workflow and describe it, for example to a compiler.
- *
- * @package Ikarus\Logic\Model
- */
-interface DataModelInterface
+interface GatewayDataModelInterface
 {
     /**
-     * Gets all scene data models
+     * Gets the destination scene, where the gateway should be linked.
+     * Returning a string must be the identifier of the scene.
      *
-     * @return SceneDataModelInterface[]
+     * @return string|SceneDataModelInterface
      */
-    public function getSceneDataModels(): array;
+    public function getDestinationScene();
 
     /**
-     * Gets the nodes of a scene
+     * Gets the node from where the gateway should be linked
+     * Returning a string must be the identifier of the node.
+     * Please note that the source node must reference Ikarus component GATEWAY defined in ikarus/logic-engine
      *
-     * @param SceneDataModelInterface|string $scene
-     * @return NodeDataModelInterface[]
+     * @return string|NodeDataModelInterface
      */
-    public function getNodesInScene($scene): array;
+    public function getSourceNode();
 
     /**
-     * Gets all connections inside a scene
-     * NOTE: Connected nodes must be in the same scene.
+     * Return the socket map which means which sockets are linked to each other.
+     * Example Node A (id A1 and Ikarus component GATEWAY!) has input1, input2, and output1.
+     * Scene B has nodes exposing output (Node id B1), output (Node id B2) and input1.
+     * So a valid socket map ALWAYS MUST LINK AN INPUT WITH AN OUTPUT!
+     * Possible map:
+     *  ['A1.input1' => 'B1.output', 'A1.input2' => 'B2.output', 'A1.output1' => 'B1.input1']
      *
-     * @param SceneDataModelInterface|string $scene
-     * @return ConnectionDataModelInterface[]
+     * @return array
      */
-    public function getConnectionsInScene($scene): array;
-
-    /**
-     * Gets all gateways to a given scene
-     *
-     * @param SceneDataModelInterface]string $scene
-     * @return GatewayDataModelInterface[]|null
-     */
-    public function getGatewaysToScene($scene): ?array;
+    public function getSocketMap(): array;
 }
