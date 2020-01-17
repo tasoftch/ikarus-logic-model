@@ -56,6 +56,9 @@ class PHPArrayLoader extends AbstractLoader implements ArrayAccess
     const CONNECTION_OUTPUT_NODE_KEY = 'dst';
     const CONNECTION_OUTPUT_KEY = 'output';
 
+    const GATEWAY_DESTINATION_SCENE_KEY = 'dst';
+    const GATEWAY_SOCKET_MAP_KEY = 'map';
+
     /** @var array */
     private $data;
 
@@ -110,6 +113,14 @@ class PHPArrayLoader extends AbstractLoader implements ArrayAccess
                             $name = $this->getName($node, false, false);
 
                             $model->addNode($nid, $name, $sid, $node[ static::DATA_KEY ] ?? NULL);
+
+                            if($gw = $node[ static::GATEWAY_DESTINATION_SCENE_KEY ] ?? NULL) {
+                                $model->pair(
+                                    $gw,
+                                    $nid,
+                                    $node[ static::GATEWAY_SOCKET_MAP_KEY ] ?? []
+                                );
+                            }
                         }
 
                         foreach(($scene[ static::CONNECTIONS_KEY ] ?? []) as $connection) {

@@ -381,4 +381,36 @@ class DataModelLoadingTest extends TestCase
 
         $this->assertInstanceOf(DataModel::class, $model = $loader->getModel());
     }
+
+    public function testPHPLoaderWithGateway() {
+        $loader = new PHPArrayLoader([
+            PHPArrayLoader::SCENES_KEY => [
+                'myScene' => [
+                    PHPArrayLoader::NODES_KEY => [
+                        'myNode' => [
+                            PHPArrayLoader::NAME_KEY => 'test',
+                            PHPArrayLoader::GATEWAY_DESTINATION_SCENE_KEY => 'myScene',
+                            PHPArrayLoader::GATEWAY_SOCKET_MAP_KEY => [
+                                'myNode:input' => 'superNode:output'
+                            ]
+                        ],
+                        'superNode' => [
+                            PHPArrayLoader::NAME_KEY => 'super'
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+        $loader->useIndicesAsIdentifiers = true;
+
+        $this->assertInstanceOf(DataModel::class, $model = $loader->getModel());
+
+        $gateway = $model->getGatewaysToScene('myScene')[ "myNode" ];
+
+        $this->assertEquals("myScene", $gateway->getDestinationScene());
+        $this->assertEquals('myNode', $gateway->getSourceNode());
+        $this->assertEquals([
+            'myNode:input' => 'superNode:output'
+        ], $gateway->getSocketMap());
+    }
 }
