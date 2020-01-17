@@ -43,6 +43,8 @@ namespace Ikarus\Logic\Model\Data;
  */
 interface AttributedDataModelInterface
 {
+    const ATTR_LABEL = 'label';
+
     /**
      * Gets the attributes
      * The attributes must be serializable.

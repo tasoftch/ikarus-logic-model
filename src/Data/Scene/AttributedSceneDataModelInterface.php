@@ -2,7 +2,7 @@
 /**
  * BSD 3-Clause License
  *
- * Copyright (c) 2019, TASoft Applications
+ * Copyright (c) 2020, TASoft Applications
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,22 +35,9 @@
 namespace Ikarus\Logic\Model\Data\Scene;
 
 
-class AttributedSceneDataModel extends SceneDataModel implements AttributedSceneDataModelInterface
+use Ikarus\Logic\Model\Data\AttributedDataModelInterface;
+
+interface AttributedSceneDataModelInterface extends AttributedDataModelInterface
 {
-    private $attributes = [];
-
-    public function __construct($identifier, array $attributes = NULL)
-    {
-        parent::__construct($identifier);
-        if($attributes)
-            $this->attributes = $attributes;
-    }
-
-    /**
-     * @return array
-     */
-    public function getAttributes(): array
-    {
-        return $this->attributes;
-    }
+    const ATTR_HIDDEN = 'hidden';
 }
