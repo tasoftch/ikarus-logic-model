@@ -35,6 +35,8 @@
 namespace Ikarus\Logic\Model\Data;
 
 
+use Ikarus\Logic\Model\Exception\InconsistentComponentModelException;
+
 abstract class AbstractDataModelObject implements IdentifiedDataModelInterface
 {
     private $identifier;
@@ -45,6 +47,11 @@ abstract class AbstractDataModelObject implements IdentifiedDataModelInterface
      */
     public function __construct($identifier)
     {
+        if(!preg_match("/^[^\.:]+$/i", $identifier)) {
+            $e = new InconsistentComponentModelException("Identifier $identifier is not valid, must not contain : and . characters");
+            $e->setProperty($identifier);
+            throw $e;
+        }
         $this->identifier = $identifier;
     }
 

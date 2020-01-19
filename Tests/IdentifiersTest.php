@@ -32,40 +32,34 @@
  *
  */
 
-namespace Ikarus\Logic\Model\Data\Scene;
+/**
+ * IdentifiersTest.php
+ * ikarus-logic-model
+ *
+ * Created on 2020-01-19 10:12 by thomas
+ */
 
+namespace Ikarus\Logic\Model\Test;
 
-use Ikarus\Logic\Model\Data\Node\NodeDataModelInterface;
+use Ikarus\Logic\Model\DataModel;
+use PHPUnit\Framework\TestCase;
 
-interface GatewayDataModelInterface
+class IdentifiersTest extends TestCase
 {
     /**
-     * Gets the destination scene, where the gateway should be linked.
-     * Returning a string must be the identifier of the scene.
-     *
-     * @return SceneDataModelInterface
+     * @expectedException \Ikarus\Logic\Model\Exception\InconsistentComponentModelException
      */
-    public function getDestinationScene(): SceneDataModelInterface;
+    public function testInvalidSceneIdentifier() {
+        (new DataModel())
+            ->addScene('my.first-scene');
+    }
 
     /**
-     * Gets the node from where the gateway should be linked
-     * Returning a string must be the identifier of the node.
-     * Please note that the source node must reference Ikarus component GATEWAY defined in ikarus/logic-engine
-     *
-     * @return NodeDataModelInterface
+     * @expectedException \Ikarus\Logic\Model\Exception\InconsistentComponentModelException
      */
-    public function getSourceNode(): NodeDataModelInterface;
-
-    /**
-     * Return the socket map which means which sockets are linked to each other.
-     * Example Node A (id A1 and Ikarus component GATEWAY!) has input1, input2, and output1.
-     * Scene B has nodes exposing output (Node id B1), output (Node id B2) and input (Node id B3).
-     * So a valid socket map ALWAYS MUST LINK AN INPUT WITH AN OUTPUT!
-     * The map keys are the socket names of the gateway node
-     * Possible map:
-     *  ['myInput1' => 'B1.output', 'myInput2' => 'B2.output', 'myOutput' => 'B3.input']
-     *
-     * @return array
-     */
-    public function getSocketMap(): array;
+    public function testInvalidNodeIdentifier() {
+        (new DataModel())
+            ->addScene('my-first-scene')
+            ->addNode('my:node', 'CMP', 'my-first-scene');
+    }
 }
