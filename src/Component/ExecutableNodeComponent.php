@@ -91,11 +91,19 @@ class ExecutableNodeComponent extends NodeComponent implements ExecutableExpress
             call_user_func( $cb, $valuesServer, $context );
         } else {
             $socketName = $context->getRequestedOutputSocketName();
-            if(($this->getInputSockets()[$socketName] ?? NULL) instanceof ExposedSocketComponentInterface) {
-                $value = $valuesServer->fetchInputValue($socketName);
-                if(NULL !== $value) {
-                    $valuesServer->exposeValue($socketName, $value);
+            $expose = function($socket) use ($valuesServer) {
+                if($socket instanceof ExposedSocketComponentInterface) {
+                    $value = $valuesServer->fetchInputValue($socket->getName());
+                    if(NULL !== $value) {
+                        $valuesServer->exposeValue($socket->getName(), $value);
+                    }
                 }
+            };
+            if($socketName) {
+                $expose( $this->getInputSockets()[$socketName] ?? NULL );
+            } else {
+                foreach($this->getInputSockets() as $socket)
+                    $expose($socket);
             }
         }
     }
