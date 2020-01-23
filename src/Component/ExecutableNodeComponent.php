@@ -100,7 +100,11 @@ class ExecutableNodeComponent extends NodeComponent implements ExecutableExpress
                 }
             };
             if($socketName) {
-                $expose( $this->getInputSockets()[$socketName] ?? NULL );
+                if($sk = $this->getInputSockets()[$socketName] ?? NULL)
+                    $expose( $sk );
+                elseif($sk = $this->getOutputSockets()[$socketName] ?? NULL)
+                    // This should only happen for gateways, which are connected from an output socket to an input
+                    $expose( $sk );
             } else {
                 foreach($this->getInputSockets() as $socket)
                     $expose($socket);
