@@ -35,13 +35,14 @@
 namespace Ikarus\Logic\Model;
 
 
+use Ikarus\Logic\Model\Component\ComponentModelAwareInterface;
 use Ikarus\Logic\Model\Component\ComponentModelInterface;
 use Ikarus\Logic\Model\Component\NodeComponentInterface;
 use Ikarus\Logic\Model\Component\Socket\Type\TypeInterface;
 use Ikarus\Logic\Model\Exception\ComponentNotFoundException;
 use Ikarus\Logic\Model\Exception\SocketComponentNotFoundException;
 
-abstract class AbstractComponentModel implements ComponentModelInterface
+abstract class AbstractComponentModel implements ComponentModelInterface, ComponentModelAwareInterface
 {
     public function getComponent($name): NodeComponentInterface
     {
@@ -74,18 +75,4 @@ abstract class AbstractComponentModel implements ComponentModelInterface
         $e->setComponentName($name);
         throw $e;
     }
-
-    /**
-     * Gets all available components
-     *
-     * @return array
-     */
-    abstract protected function getComponents(): array;
-
-    /**
-     * Gets all available socket types
-     *
-     * @return array
-     */
-    abstract protected function getSocketTypes(): array;
 }
